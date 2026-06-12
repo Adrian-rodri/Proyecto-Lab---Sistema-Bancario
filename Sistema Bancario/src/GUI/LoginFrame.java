@@ -102,7 +102,13 @@ public class LoginFrame extends JFrame {
         estilizarCampo(campoUsuario,"Ingresa tu usuario");
         tarjeta.add(campoUsuario);
         tarjeta.add(Box.createVerticalStrut(15));
-        
+
+        tarjeta.add(crearEtiqueta("Contrasena"));
+        tarjeta.add(Box.createVerticalStrut(5));
+        campoPassword = new JPasswordField();
+        estilizarCampo(campoPassword, "Ingresa tu contrasna");
+
+
 
     }
 
