@@ -24,6 +24,22 @@ public class LoginFrame {
     private JCheckBox chkMostrar;
     private int intentosFallidos;
 
+
+    public LoginFrame(){
+        configurarVentana();
+        JPanel panelFondo = crearPanelFondo();
+        JPanel tarjeta = crearTarjetaLogin();
+
+        panelFondo.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor=GridBagConstraints.CENTER;
+        panelFondo.add(tarjeta,gbc);
+
+        setContenPane(panelFondo);
+        setVisible(true);
+    }
+
     
+
 
 }
