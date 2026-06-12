@@ -52,9 +52,21 @@ public class LoginFrame extends JFrame {
     }
 
     private JPanel crearPanelFondo() {
-        return new JPanel();
-        private Image imagenFondo = cargarImagen("/ASSETS/FONDO_LOGIN.png");
+        return new JPanel() {
+            Image imagenFondo = cargarImagen("/ASSETS/FONDO_LOGIN.png");
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imagenFondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
     }
+
+
+
+
+
+
     private Image cargarImagen(String ruta){
         try{
             URL url = getClass().getResource(ruta);
