@@ -126,6 +126,12 @@ public class LoginFrame extends JFrame {
         return null;
     }
 
+    private JLabel crearLogo(){
+        Image img = cargarImagen("/ASSETS/LOGO.png");
+        Image escalada = img.getScaledInstance(180,60, Image.SCALE_SMOOTH);
+        return new JLabel(new ImageIcon(escalada));
+    }
+
 
 
 
