@@ -126,6 +126,14 @@ public class LoginFrame extends JFrame {
        tarjeta.add(Box.createVerticalStrut(8));
 
 
+       lblErorr = new JLabel(" ");
+       lblErorr.setFont(new Font("Segoe UI",Font.PLAIN,12));
+       lblErorr.setForeground(ROJO_BA);
+       lblErorr.setAlignmentX(Component.CENTER_ALIGNMENT);
+       tarjeta.add(lblErorr);
+       tarjeta.add(Box.createVerticalStrut(20));
+
+
     }
 
 
