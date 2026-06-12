@@ -90,10 +90,19 @@ public class LoginFrame extends JFrame {
         tarjeta.setOpaque(false);
         tarjeta.setBorder(new EmptyBorder(35,50,35,50));
         tarjeta.setPreferredSize(new Dimension(430,470));
-        
+
         JLabel lblLogo = crearLogo();
         lblLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tarjeta.add(lblLogo);
+        tarjeta.add(Box.createVerticalStrut(20));
 
+        tarjeta.add(crearEtiqueta("Usuario"));
+        tarjeta.add(Box.createVerticalStrut(5));
+        campoUsuario=new JTextField();
+        estilizarCampo(campoUsuario,"Ingresa tu usuario");
+        tarjeta.add(campoUsuario);
+        tarjeta.add(Box.createVerticalStrut(15));
+        
 
     }
 
