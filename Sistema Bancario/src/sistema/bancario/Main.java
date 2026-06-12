@@ -4,6 +4,8 @@
  */
 package sistema.bancario;
 
+import GUI.LoginFrame;
+
 /**
  *
  * @author adria
@@ -15,6 +17,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        LoginFrame lg = new LoginFrame();
+        lg.setVisible(true);
     }
     
 }

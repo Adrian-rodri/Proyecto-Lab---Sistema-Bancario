@@ -33,14 +33,14 @@ public class LoginFrame extends JFrame {
     public LoginFrame(){
         configurarVentana();
         JPanel panelFondo = crearPanelFondo();
-        JPanel tarjeta = crearTarjetaLogin();
+      JPanel tarjeta = crearTarjetaLogin();
 
         panelFondo.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor=GridBagConstraints.CENTER;
-        panelFondo.add(tarjeta,gbc);
+       panelFondo.add(tarjeta,gbc);
 
-        setContenPane(panelFondo);
+        setContentPane(panelFondo);
         setVisible(true);
     }
 
@@ -65,7 +65,7 @@ public class LoginFrame extends JFrame {
         };
     }
 
-    private JPanel crearTarjetaLogin(){
+   private JPanel crearTarjetaLogin(){
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
@@ -99,7 +99,7 @@ public class LoginFrame extends JFrame {
         tarjeta.add(crearEtiqueta("Usuario"));
         tarjeta.add(Box.createVerticalStrut(5));
         campoUsuario=new JTextField();
-        estilizarCampo(campoUsuario,"Ingresa tu usuario");
+       estilizarCampo(campoUsuario,"Ingresa tu usuario");
         tarjeta.add(campoUsuario);
         tarjeta.add(Box.createVerticalStrut(15));
 
@@ -130,6 +130,14 @@ public class LoginFrame extends JFrame {
         Image img = cargarImagen("/ASSETS/LOGO.png");
         Image escalada = img.getScaledInstance(180,60, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(escalada));
+    }
+
+    private JLabel crearEtiqueta(String texto){
+        JLabel lbl = new JLabel(texto);
+        lbl.setFont(new Font("Seogeo UI", Font.PLAIN,13));
+        lbl.setForeground(Color.darkGray);
+        lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return lbl;
     }
 
 
