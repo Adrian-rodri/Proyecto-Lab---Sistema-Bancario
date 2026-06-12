@@ -1,5 +1,6 @@
 package GUI;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class LoginFrame {
@@ -15,6 +16,13 @@ public class LoginFrame {
     private static final String USUARIO="admin";
     private static final String PASSWORD="1234";
     private static final int MAX_INTENTOS = 3;
+
+    private JTextField campoUsuario;
+    private JPasswordField campoPassword;
+    private JButton btnLogin;
+    private JLabel lblErorr;
+    private JCheckBox chkMostrar;
+    private int intentosFallidos;
 
     
 
