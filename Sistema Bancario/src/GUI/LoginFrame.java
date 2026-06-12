@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 
 public class LoginFrame extends JFrame {
@@ -47,7 +48,22 @@ public class LoginFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        
+
+    }
+
+    private JPanel crearPanelFondo() {
+        return new JPanel();
+        private Image imagenFondo = cargarImagen("/ASSETS/FONDO_LOGIN.png");
+    }
+    private Image cargarImagen(String ruta){
+        try{
+            URL url = getClass().getResource(ruta);
+            if(url!=null) return new ImageIcon(url).getImage();
+
+        }catch (Exception e){
+            System.out.println("No se pudo cargar imagen: "+ruta);
+        }
+        return null;
     }
 
 
