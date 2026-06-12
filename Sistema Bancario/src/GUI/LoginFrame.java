@@ -75,7 +75,26 @@ public class LoginFrame extends JFrame {
         ));
 
         tarjeta.setPreferredSize(new Dimension(420,460));
+        tarjeta=new JPanel(){
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setColor(BLANCO);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+            g2.dispose();
+        }
+    };
+
+        tarjeta.setLayout(new BoxLayout(tarjeta,BoxLayout.Y_AXIS));
+        tarjeta.setOpaque(false);
+        tarjeta.setBorder(new EmptyBorder(35,50,35,50));
+        tarjeta.setPreferredSize(new Dimension(430,470));
         
+        JLabel lblLogo = crearLogo();
+        lblLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
     }
 
 
