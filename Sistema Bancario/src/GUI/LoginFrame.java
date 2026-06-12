@@ -3,7 +3,8 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginFrame {
+
+public class LoginFrame extends JFrame {
 
     //PALETA DE COLORES
     private static final Color ROJO_BA      = new Color(180, 20, 20);
@@ -39,7 +40,17 @@ public class LoginFrame {
         setVisible(true);
     }
 
-    
+    private void configurarVentana(){
+        setTitle("Banco Atlantida - Inciar Sesion");
+        setSize(900,620);
+        setMinimumSize(new Dimension(750,500));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        
+    }
+
+
 
 
 }
