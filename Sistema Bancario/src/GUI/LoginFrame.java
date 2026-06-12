@@ -1,6 +1,9 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.net.URL;
 
@@ -62,7 +65,18 @@ public class LoginFrame extends JFrame {
         };
     }
 
+    private JPanel crearTarjetaLogin(){
+        JPanel tarjeta = new JPanel();
+        tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
+        tarjeta.setBackground(BLANCO);
+        tarjeta.setBorder(new CompoundBorder(
+                new LineBorder(new Color(220,220,220),1,true),
+                new EmptyBorder(35,50,35,50)
+        ));
 
+        tarjeta.setPreferredSize(new Dimension(420,460));
+        
+    }
 
 
 
