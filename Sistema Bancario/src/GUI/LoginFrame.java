@@ -110,6 +110,20 @@ public class LoginFrame extends JFrame {
         campoPassword = new JPasswordField();
         estilizarCampo(campoPassword, "Ingresa tu contrasna");
 
+       JPanel panelPass = new JPanel(new BorderLayout(5, 0));
+       panelPass.setOpaque(false);
+       panelPass.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+       panelPass.add(campoPassword, BorderLayout.CENTER);
+
+       chkMostrar = new JCheckBox("👁");
+       chkMostrar.setOpaque(false);
+       chkMostrar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+       chkMostrar.setFocusPainted(false);
+       chkMostrar.setToolTipText("Mostrar contraseña");
+       chkMostrar.addActionListener(e -> toggleContrasena());
+       panelPass.add(chkMostrar, BorderLayout.EAST);
+       tarjeta.add(panelPass);
+       tarjeta.add(Box.createVerticalStrut(8));
 
 
     }
