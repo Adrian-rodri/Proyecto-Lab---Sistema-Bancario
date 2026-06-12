@@ -5,6 +5,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.net.URL;
 
 
@@ -99,7 +101,7 @@ public class LoginFrame extends JFrame {
         tarjeta.add(crearEtiqueta("Usuario"));
         tarjeta.add(Box.createVerticalStrut(5));
         campoUsuario=new JTextField();
-       estilizarCampo(campoUsuario,"Ingresa tu usuario");
+        estilizarCampo(campoUsuario,"Ingresa tu usuario");
         tarjeta.add(campoUsuario);
         tarjeta.add(Box.createVerticalStrut(15));
 
@@ -139,6 +141,44 @@ public class LoginFrame extends JFrame {
         lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
         return lbl;
     }
+
+    private void estilizarCampo(JTextField campo, String placeholder) {
+        campo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        campo.setBackground(GRIS_CAMPO);
+        campo.setBorder(new CompoundBorder(
+                new LineBorder(new Color(210, 210, 210), 1, true),
+                new EmptyBorder(8, 12, 8, 12)
+        ));
+        campo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+
+        campo.setForeground(GRIS_TEXTO);
+        campo.setText(placeholder);
+        campo.addFocusListener(new FocusAdapter() {
+            @Override public void focusGained(FocusEvent e) {
+                if (campo.getText().equals(placeholder)) {
+                    campo.setText("");
+                    campo.setForeground(Color.BLACK);
+                    if (campo instanceof JPasswordField) {
+                        ((JPasswordField) campo).setEchoChar('•');
+                    }
+                }
+            }
+            @Override public void focusLost(FocusEvent e) {
+                if (campo.getText().isEmpty()) {
+                    campo.setForeground(GRIS_TEXTO);
+                    campo.setText(placeholder);
+                    if (campo instanceof JPasswordField) {
+                        ((JPasswordField) campo).setEchoChar((char) 0);
+                    }
+                }
+            }
+        });
+
+        if (campo instanceof JPasswordField) {
+            ((JPasswordField) campo).setEchoChar((char) 0);
+        }
+    }
+
 
 
 
