@@ -8,7 +8,7 @@ package sistema.bancario;
  *
  * @author adria
  */
-public class SistemaBancario {
+public class Main {
 
     /**
      * @param args the command line arguments
