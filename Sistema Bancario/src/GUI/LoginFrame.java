@@ -12,6 +12,10 @@ public class LoginFrame {
     private static final Color GRIS_TEXTO   = new Color(120, 120, 120);
     private static final Color BLANCO       = Color.WHITE;
 
+    private static final String USUARIO="admin";
+    private static final String PASSWORD="1234";
+    private static final int MAX_INTENTOS = 3;
+
     
 
 }
