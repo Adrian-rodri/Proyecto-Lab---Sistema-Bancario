@@ -107,25 +107,23 @@ public class LoginFrame extends JFrame {
         tarjeta.add(campoUsuario);
         tarjeta.add(Box.createVerticalStrut(15));
 
-        tarjeta.add(crearEtiqueta("Contrasena"));
-        tarjeta.add(Box.createVerticalStrut(5));
-        campoPassword = new JPasswordField();
-        estilizarCampo(campoPassword, "Ingresa tu contrasena");
+       tarjeta.add(crearEtiqueta("Contraseña"));
+       tarjeta.add(Box.createVerticalStrut(5));
 
-       JPanel panelPass = new JPanel(new BorderLayout(5, 0));
-       panelPass.setOpaque(false);
-       panelPass.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
-       panelPass.add(campoPassword, BorderLayout.CENTER);
+       campoPassword = new JPasswordField();
+       estilizarCampo(campoPassword, "Ingresa tu contraseña");
+       tarjeta.add(campoPassword);
 
-       chkMostrar = new JCheckBox("-");
+       tarjeta.add(Box.createVerticalStrut(5));
+
+       chkMostrar = new JCheckBox("Mostrar contraseña");
        chkMostrar.setOpaque(false);
-       chkMostrar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+       chkMostrar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
        chkMostrar.setFocusPainted(false);
-       chkMostrar.setToolTipText("Mostrar contraseña");
        chkMostrar.addActionListener(e -> toggleContrasena());
-       panelPass.add(chkMostrar, BorderLayout.EAST);
-       tarjeta.add(panelPass);
-       tarjeta.add(Box.createVerticalStrut(8));
+       tarjeta.add(chkMostrar);
+
+       tarjeta.add(Box.createVerticalStrut(15));
 
 
        lblErorr = new JLabel(" ");
@@ -165,7 +163,7 @@ public class LoginFrame extends JFrame {
         JLabel lbl = new JLabel(texto);
         lbl.setFont(new Font("Seogeo UI", Font.PLAIN,13));
         lbl.setForeground(Color.darkGray);
-        lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
+        lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         return lbl;
     }
 
@@ -287,7 +285,7 @@ public class LoginFrame extends JFrame {
 
     private void loginExitoso() {
         lblErorr.setText(" ");
-        dispose(); // cierra el login
+        dispose();
       SwingUtilities.invokeLater(() -> new Menu().setVisible(true));
     }
 
