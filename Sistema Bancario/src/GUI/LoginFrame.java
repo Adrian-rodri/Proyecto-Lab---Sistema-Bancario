@@ -22,8 +22,8 @@ public class LoginFrame extends JFrame {
     private static final Color GRIS_TEXTO   = new Color(120, 120, 120);
     private static final Color BLANCO       = Color.WHITE;
 
-    private static final String USUARIO="admin";
-    private static final String PASSWORD="1234";
+    private static final String USUARIO_VALIDO="admin";
+    private static final String CONTRASENA_VALIDA="1234";
     private static final int MAX_INTENTOS = 3;
 
     private JTextField campoUsuario;
@@ -257,6 +257,56 @@ public class LoginFrame extends JFrame {
         lblErorr.setText(mensaje);
    }
 
+
+    private void validarLogin() {
+        String usuario    = campoUsuario.getText().trim();
+        String contrasena = new String(campoPassword.getPassword()).trim();
+
+        if (usuario.equals("Ingresa tu usuario"))       usuario    = "";
+        if (contrasena.equals("Ingresa tu contraseña")) contrasena = "";
+
+        if (usuario.isEmpty() || contrasena.isEmpty()) {
+            mostrarError("Por favor completa todos los campos.");
+            return;
+        }
+
+        if (usuario.equals(USUARIO_VALIDO) && contrasena.equals(CONTRASENA_VALIDA)) {
+            loginExitoso();
+        } else {
+            intentosFallidos++;
+            int restantes = MAX_INTENTOS - intentosFallidos;
+
+            if (intentosFallidos >= MAX_INTENTOS) {
+                bloquearSistema();
+            } else {
+                mostrarError("Usuario o contraseña incorrectos. Intentos restantes: " + restantes);
+                limpiarCampos();
+            }
+        }
+    }
+
+    private void loginExitoso() {
+        lblErorr.setText(" ");
+        dispose(); // cierra el login
+     //   SwingUtilities.invokeLater(() -> new MenuPrincipal().setVisible(true));
+    }
+
+    private void bloquearSistema() {
+        btnLogin.setEnabled(false);
+        campoUsuario.setEnabled(false);
+        campoPassword.setEnabled(false);
+        mostrarError("Demasiados intentos fallidos. Sistema bloqueado.");
+        JOptionPane.showMessageDialog(this,
+                "Has superado el número máximo de intentos.\nPor favor contacta al administrador.",
+                "Acceso bloqueado",
+                JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void limpiarCampos() {
+        campoUsuario.setText("");
+        campoPassword.setText("");
+        campoUsuario.requestFocus();
+    }
 
 
 }
