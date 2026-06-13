@@ -7,6 +7,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 
 
@@ -134,6 +136,7 @@ public class LoginFrame extends JFrame {
        tarjeta.add(Box.createVerticalStrut(20));
 
 
+       return tarjeta;
     }
 
 
@@ -204,10 +207,48 @@ public class LoginFrame extends JFrame {
 
     private void toggleContrasena() {
         if (chkMostrar.isSelected()) {
-            campoContrasena.setEchoChar((char) 0);
+            campoPassword.setEchoChar((char) 0);
         } else {
-            campoContrasena.setEchoChar('•');
+            campoPassword.setEchoChar('•');
         }
+    }
+
+    private JButton crearBotonLogin() {
+        JButton btn = new JButton("INICIAR SESIÓN") {
+            @Override protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getModel().isPressed() ? ROJO_HOVER :
+                        getModel().isRollover() ? ROJO_HOVER : ROJO_BOTON);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+                g2.setColor(BLANCO);
+                FontMetrics fm = g2.getFontMetrics();
+                int x = (getWidth() - fm.stringWidth(getText())) / 2;
+                int y = (getHeight() + fm.getAscent() - fm.getDescent()) / 2;
+                g2.drawString(getText(), x, y);
+                g2.dispose();
+            }
+        };
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setForeground(BLANCO);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
+        btn.setOpaque(false);
+        btn.setMaximumSize(new Dimension(Integer.MAX_VALUE, 45));
+        btn.setPreferredSize(new Dimension(300, 45));
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.addActionListener(e -> validarLogin());
+
+        KeyAdapter enterListener = new KeyAdapter() {
+            @Override public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) validarLogin();
+            }
+        };
+        campoUsuario.addKeyListener(enterListener);
+        campoPassword.addKeyListener(enterListener);
+
+        return btn;
     }
 
 
