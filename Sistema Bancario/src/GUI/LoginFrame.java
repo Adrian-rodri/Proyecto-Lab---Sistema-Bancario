@@ -202,6 +202,14 @@ public class LoginFrame extends JFrame {
     }
 
 
+    private void toggleContrasena() {
+        if (chkMostrar.isSelected()) {
+            campoContrasena.setEchoChar((char) 0);
+        } else {
+            campoContrasena.setEchoChar('•');
+        }
+    }
+
 
 
 
