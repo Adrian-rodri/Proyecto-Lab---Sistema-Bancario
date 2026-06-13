@@ -110,14 +110,14 @@ public class LoginFrame extends JFrame {
         tarjeta.add(crearEtiqueta("Contrasena"));
         tarjeta.add(Box.createVerticalStrut(5));
         campoPassword = new JPasswordField();
-        estilizarCampo(campoPassword, "Ingresa tu contrasna");
+        estilizarCampo(campoPassword, "Ingresa tu contrasena");
 
        JPanel panelPass = new JPanel(new BorderLayout(5, 0));
        panelPass.setOpaque(false);
        panelPass.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
        panelPass.add(campoPassword, BorderLayout.CENTER);
 
-       chkMostrar = new JCheckBox("👁");
+       chkMostrar = new JCheckBox("-");
        chkMostrar.setOpaque(false);
        chkMostrar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
        chkMostrar.setFocusPainted(false);
@@ -157,7 +157,7 @@ public class LoginFrame extends JFrame {
 
     private JLabel crearLogo(){
         Image img = cargarImagen("/ASSETS/LOGO4.png");
-        Image escalada = img.getScaledInstance(280,100, Image.SCALE_SMOOTH);
+        Image escalada = img.getScaledInstance(280,150, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(escalada));
     }
 
