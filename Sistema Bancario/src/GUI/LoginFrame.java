@@ -288,7 +288,7 @@ public class LoginFrame extends JFrame {
     private void loginExitoso() {
         lblErorr.setText(" ");
         dispose(); // cierra el login
-     //   SwingUtilities.invokeLater(() -> new MenuPrincipal().setVisible(true));
+      SwingUtilities.invokeLater(() -> new Menu().setVisible(true));
     }
 
     private void bloquearSistema() {
