@@ -135,7 +135,9 @@ public class LoginFrame extends JFrame {
        tarjeta.add(lblErorr);
        tarjeta.add(Box.createVerticalStrut(20));
 
-
+      btnLogin=crearBotonLogin();
+      btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
+      tarjeta.add(btnLogin);
        return tarjeta;
     }
 
@@ -251,6 +253,9 @@ public class LoginFrame extends JFrame {
         return btn;
     }
 
+   private void mostrarError(String mensaje){
+        lblErorr.setText(mensaje);
+   }
 
 
 
