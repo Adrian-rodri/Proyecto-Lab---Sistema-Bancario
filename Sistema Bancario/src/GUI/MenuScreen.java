@@ -1,8 +1,10 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.net.URL;
 
@@ -83,7 +85,7 @@ public class MenuScreen extends JPanel {
     private JLabel crearLogoHeader() {
         Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
 
-            Image escalada = img.getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+            Image escalada = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             return new JLabel(new ImageIcon(escalada));
 
     }
@@ -183,5 +185,46 @@ public class MenuScreen extends JPanel {
         avatar.setBorder(new LineBorder(BLANCO, 2, true));
         return avatar;
     }
+
+    private JPanel crearSisdebar(){
+        JPanel sidebar = new JPanel();
+        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+        sidebar.setBackground((BLANCO));
+        sidebar.setPreferredSize(new Dimension(280,0));
+        sidebar.setBorder(new CompoundBorder(
+                new MatteBorder(0,0,0,1,GRIS_BORDE),
+                new EmptyBorder(15,15,15,15)
+        ));
+        JTextField buscador = new JTextField("🔍  Buscar operación o cuenta");
+        buscador.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        buscador.setForeground(GRIS_TEXTO);
+        buscador.setBackground(GRIS_CAJA);
+        buscador.setBorder(new CompoundBorder(
+                new LineBorder(GRIS_BORDE, 1, true),
+                new EmptyBorder(8, 10, 8, 10)
+        ));
+        buscador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        buscador.setAlignmentX(Component.LEFT_ALIGNMENT);
+        sidebar.add(buscador);
+        sidebar.add(Box.createVerticalStrut(15));
+
+        JButton btnVolver = new JButton("←  Volver al inicio");
+        btnVolver.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        btnVolver.setForeground(Color.DARK_GRAY);
+        btnVolver.setBackground(GRIS_CLARO);
+        btnVolver.setBorder(new CompoundBorder(
+                new LineBorder(GRIS_BORDE, 1, true),
+                new EmptyBorder(8, 10, 8, 10)
+        ));
+        btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
+        btnVolver.setFocusPainted(false);
+        btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+        sidebar.add(btnVolver);
+        sidebar.add(Box.createVerticalStrut(20));
+        
+    }
+
 
 }
