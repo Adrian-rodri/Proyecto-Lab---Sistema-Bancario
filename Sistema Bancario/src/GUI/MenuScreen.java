@@ -195,17 +195,7 @@ public class MenuScreen extends JPanel {
                     new EmptyBorder(15, 15, 15, 15)
             ));
 
-            JTextField buscador = new JTextField("  o cuenta");
-            buscador.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-            buscador.setForeground(GRIS_TEXTO);
-            buscador.setBackground(GRIS_CAJA);
-            buscador.setBorder(new CompoundBorder(
-                    new LineBorder(GRIS_BORDE, 1, true),
-                    new EmptyBorder(8, 10, 8, 10)
-            ));
-            buscador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
-            buscador.setAlignmentX(Component.LEFT_ALIGNMENT);
-            sidebar.add(buscador);
+
             sidebar.add(Box.createVerticalStrut(15));
 
             JButton btnVolver = new JButton("←  Volver al inicio");
@@ -222,6 +212,7 @@ public class MenuScreen extends JPanel {
             btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
             btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
             sidebar.add(btnVolver);
+
             sidebar.add(Box.createVerticalStrut(20));
 
             sidebar.add(crearCategoria("ABRIR CUENTA", new String[]{
@@ -250,8 +241,8 @@ public class MenuScreen extends JPanel {
             panelBotones.setAlignmentX(Component.LEFT_ALIGNMENT);
             panelBotones.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
 
-            JButton btn1 = crearBotonInferior("⟳  Actualizar");
-            JButton btn2 = crearBotonInferior("⏻  Salir");
+            JButton btn1 = crearBotonInferior(" Actualizar");
+            JButton btn2 = crearBotonInferior(" Salir");
             panelBotones.add(btn1);
             panelBotones.add(btn2);
 
@@ -277,7 +268,7 @@ public class MenuScreen extends JPanel {
             lblTitulo.setForeground(Color.DARK_GRAY);
             encabezado.add(lblTitulo, BorderLayout.WEST);
 
-            JLabel lblFlecha = new JLabel("▲");
+            JLabel lblFlecha = new JLabel("");
             lblFlecha.setFont(new Font("Segoe UI", Font.PLAIN, 10));
             lblFlecha.setForeground(GRIS_TEXTO);
             encabezado.add(lblFlecha, BorderLayout.EAST);
