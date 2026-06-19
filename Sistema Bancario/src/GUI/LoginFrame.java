@@ -11,19 +11,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 
-
-public class LoginFrame extends JFrame {
+public class LoginFrame extends JPanel {
 
     //PALETA DE COLORES
-    private static final Color ROJO_BA      = new Color(180, 20, 20);
-    private static final Color ROJO_BOTON   = new Color(160, 15, 15);
-    private static final Color ROJO_HOVER   = new Color(200, 30, 30);
-    private static final Color GRIS_CAMPO   = new Color(245, 245, 245);
-    private static final Color GRIS_TEXTO   = new Color(120, 120, 120);
-    private static final Color BLANCO       = Color.WHITE;
+    private static final Color ROJO_BA = new Color(180, 20, 20);
+    private static final Color ROJO_BOTON = new Color(160, 15, 15);
+    private static final Color ROJO_HOVER = new Color(200, 30, 30);
+    private static final Color GRIS_CAMPO = new Color(245, 245, 245);
+    private static final Color GRIS_TEXTO = new Color(120, 120, 120);
+    private static final Color BLANCO = Color.WHITE;
 
-    private static final String USUARIO_VALIDO="admin";
-    private static final String CONTRASENA_VALIDA="1234";
+    private static final String USUARIO_VALIDO = "admin";
+    private static final String CONTRASENA_VALIDA = "1234";
     private static final int MAX_INTENTOS = 3;
 
     private JTextField campoUsuario;
@@ -33,34 +32,34 @@ public class LoginFrame extends JFrame {
     private JCheckBox chkMostrar;
     private int intentosFallidos;
 
-
-    public LoginFrame(){
-        configurarVentana();
+    public LoginFrame() {
+        setLayout(new BorderLayout());
         JPanel panelFondo = crearPanelFondo();
-      JPanel tarjeta = crearTarjetaLogin();
+        JPanel tarjeta = crearTarjetaLogin();
 
         panelFondo.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor=GridBagConstraints.CENTER;
-       panelFondo.add(tarjeta,gbc);
-
-        setContentPane(panelFondo);
+        gbc.anchor = GridBagConstraints.CENTER;
+        panelFondo.add(tarjeta, gbc);
+        this.add(panelFondo,BorderLayout.CENTER);
+       // setContentPane(panelFondo);
         setVisible(true);
     }
 
-    private void configurarVentana(){
-        setTitle("Banco Atlantida - Inciar Sesion");
-        setSize(900,620);
-        setMinimumSize(new Dimension(750,500));
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+    private void configurarVentana() {
+//        setTitle("Banco Atlantida - Inciar Sesion");
+//        setSize(900, 620);
+//        setMinimumSize(new Dimension(750, 500));
+//        setLocationRelativeTo(null);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setResizable(true);
 
     }
 
     private JPanel crearPanelFondo() {
         return new JPanel() {
             Image imagenFondo = cargarImagen("/ASSETS/FONDO_LOGIN.png");
+
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -69,31 +68,31 @@ public class LoginFrame extends JFrame {
         };
     }
 
-   private JPanel crearTarjetaLogin(){
+    private JPanel crearTarjetaLogin() {
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
         tarjeta.setBorder(new CompoundBorder(
-                new LineBorder(new Color(220,220,220),1,true),
-                new EmptyBorder(35,50,35,50)
+                new LineBorder(new Color(220, 220, 220), 1, true),
+                new EmptyBorder(35, 50, 35, 50)
         ));
 
-        tarjeta.setPreferredSize(new Dimension(420,460));
-        tarjeta=new JPanel(){
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(BLANCO);
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-            g2.dispose();
-        }
-    };
+        tarjeta.setPreferredSize(new Dimension(420, 460));
+        tarjeta = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(BLANCO);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2.dispose();
+            }
+        };
 
-        tarjeta.setLayout(new BoxLayout(tarjeta,BoxLayout.Y_AXIS));
+        tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setOpaque(false);
-        tarjeta.setBorder(new EmptyBorder(35,50,35,50));
-        tarjeta.setPreferredSize(new Dimension(430,470));
+        tarjeta.setBorder(new EmptyBorder(35, 50, 35, 50));
+        tarjeta.setPreferredSize(new Dimension(430, 470));
 
         JLabel lblLogo = crearLogo();
         lblLogo.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -102,66 +101,64 @@ public class LoginFrame extends JFrame {
 
         tarjeta.add(crearEtiqueta("Usuario"));
         tarjeta.add(Box.createVerticalStrut(5));
-        campoUsuario=new JTextField();
-        estilizarCampo(campoUsuario,"Ingresa tu usuario");
+        campoUsuario = new JTextField();
+        estilizarCampo(campoUsuario, "Ingresa tu usuario");
         tarjeta.add(campoUsuario);
         tarjeta.add(Box.createVerticalStrut(15));
 
-       tarjeta.add(crearEtiqueta("Contraseña"));
-       tarjeta.add(Box.createVerticalStrut(5));
+        tarjeta.add(crearEtiqueta("Contraseña"));
+        tarjeta.add(Box.createVerticalStrut(5));
 
-       campoPassword = new JPasswordField();
-       estilizarCampo(campoPassword, "Ingresa tu contraseña");
-       tarjeta.add(campoPassword);
+        campoPassword = new JPasswordField();
+        estilizarCampo(campoPassword, "Ingresa tu contraseña");
+        tarjeta.add(campoPassword);
 
-       tarjeta.add(Box.createVerticalStrut(5));
+        tarjeta.add(Box.createVerticalStrut(5));
 
-       chkMostrar = new JCheckBox("Mostrar contraseña");
-       chkMostrar.setOpaque(false);
-       chkMostrar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-       chkMostrar.setFocusPainted(false);
-       chkMostrar.addActionListener(e -> toggleContrasena());
-       tarjeta.add(chkMostrar);
+        chkMostrar = new JCheckBox("Mostrar contraseña");
+        chkMostrar.setOpaque(false);
+        chkMostrar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        chkMostrar.setFocusPainted(false);
+        chkMostrar.addActionListener(e -> toggleContrasena());
+        tarjeta.add(chkMostrar);
 
-       tarjeta.add(Box.createVerticalStrut(15));
+        tarjeta.add(Box.createVerticalStrut(15));
 
+        lblErorr = new JLabel(" ");
+        lblErorr.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        lblErorr.setForeground(ROJO_BA);
+        lblErorr.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tarjeta.add(lblErorr);
+        tarjeta.add(Box.createVerticalStrut(20));
 
-       lblErorr = new JLabel(" ");
-       lblErorr.setFont(new Font("Segoe UI",Font.PLAIN,12));
-       lblErorr.setForeground(ROJO_BA);
-       lblErorr.setAlignmentX(Component.CENTER_ALIGNMENT);
-       tarjeta.add(lblErorr);
-       tarjeta.add(Box.createVerticalStrut(20));
-
-      btnLogin=crearBotonLogin();
-      btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
-      tarjeta.add(btnLogin);
-       return tarjeta;
+        btnLogin = crearBotonLogin();
+        btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tarjeta.add(btnLogin);
+        return tarjeta;
     }
 
-
-
-
-    private Image cargarImagen(String ruta){
-        try{
+    private Image cargarImagen(String ruta) {
+        try {
             URL url = getClass().getResource(ruta);
-            if(url!=null) return new ImageIcon(url).getImage();
+            if (url != null) {
+                return new ImageIcon(url).getImage();
+            }
 
-        }catch (Exception e){
-            System.out.println("No se pudo cargar imagen: "+ruta);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar imagen: " + ruta);
         }
         return null;
     }
 
-    private JLabel crearLogo(){
+    private JLabel crearLogo() {
         Image img = cargarImagen("/ASSETS/LOGO4.png");
-        Image escalada = img.getScaledInstance(280,150, Image.SCALE_SMOOTH);
+        Image escalada = img.getScaledInstance(280, 150, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(escalada));
     }
 
-    private JLabel crearEtiqueta(String texto){
+    private JLabel crearEtiqueta(String texto) {
         JLabel lbl = new JLabel(texto);
-        lbl.setFont(new Font("Seogeo UI", Font.PLAIN,13));
+        lbl.setFont(new Font("Seogeo UI", Font.PLAIN, 13));
         lbl.setForeground(Color.darkGray);
         lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
         return lbl;
@@ -179,7 +176,8 @@ public class LoginFrame extends JFrame {
         campo.setForeground(GRIS_TEXTO);
         campo.setText(placeholder);
         campo.addFocusListener(new FocusAdapter() {
-            @Override public void focusGained(FocusEvent e) {
+            @Override
+            public void focusGained(FocusEvent e) {
                 if (campo.getText().equals(placeholder)) {
                     campo.setText("");
                     campo.setForeground(Color.BLACK);
@@ -188,7 +186,9 @@ public class LoginFrame extends JFrame {
                     }
                 }
             }
-            @Override public void focusLost(FocusEvent e) {
+
+            @Override
+            public void focusLost(FocusEvent e) {
                 if (campo.getText().isEmpty()) {
                     campo.setForeground(GRIS_TEXTO);
                     campo.setText(placeholder);
@@ -204,7 +204,6 @@ public class LoginFrame extends JFrame {
         }
     }
 
-
     private void toggleContrasena() {
         if (chkMostrar.isSelected()) {
             campoPassword.setEchoChar((char) 0);
@@ -215,11 +214,12 @@ public class LoginFrame extends JFrame {
 
     private JButton crearBotonLogin() {
         JButton btn = new JButton("INICIAR SESIÓN") {
-            @Override protected void paintComponent(Graphics g) {
+            @Override
+            protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getModel().isPressed() ? ROJO_HOVER :
-                        getModel().isRollover() ? ROJO_HOVER : ROJO_BOTON);
+                g2.setColor(getModel().isPressed() ? ROJO_HOVER
+                        : getModel().isRollover() ? ROJO_HOVER : ROJO_BOTON);
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
                 g2.setColor(BLANCO);
                 FontMetrics fm = g2.getFontMetrics();
@@ -241,8 +241,11 @@ public class LoginFrame extends JFrame {
         btn.addActionListener(e -> validarLogin());
 
         KeyAdapter enterListener = new KeyAdapter() {
-            @Override public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) validarLogin();
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    validarLogin();
+                }
             }
         };
         campoUsuario.addKeyListener(enterListener);
@@ -251,17 +254,20 @@ public class LoginFrame extends JFrame {
         return btn;
     }
 
-   private void mostrarError(String mensaje){
+    private void mostrarError(String mensaje) {
         lblErorr.setText(mensaje);
-   }
-
+    }
 
     private void validarLogin() {
-        String usuario    = campoUsuario.getText().trim();
+        String usuario = campoUsuario.getText().trim();
         String contrasena = new String(campoPassword.getPassword()).trim();
 
-        if (usuario.equals("Ingresa tu usuario"))       usuario    = "";
-        if (contrasena.equals("Ingresa tu contraseña")) contrasena = "";
+        if (usuario.equals("Ingresa tu usuario")) {
+            usuario = "";
+        }
+        if (contrasena.equals("Ingresa tu contraseña")) {
+            contrasena = "";
+        }
 
         if (usuario.isEmpty() || contrasena.isEmpty()) {
             mostrarError("Por favor completa todos los campos.");
@@ -285,8 +291,8 @@ public class LoginFrame extends JFrame {
 
     private void loginExitoso() {
         lblErorr.setText(" ");
-        dispose();
-      SwingUtilities.invokeLater(() -> new Menu().setVisible(true));
+        //dispose();
+        SwingUtilities.invokeLater(() -> new Menu().setVisible(true));
     }
 
     private void bloquearSistema() {
@@ -305,6 +311,5 @@ public class LoginFrame extends JFrame {
         campoPassword.setText("");
         campoUsuario.requestFocus();
     }
-
 
 }
