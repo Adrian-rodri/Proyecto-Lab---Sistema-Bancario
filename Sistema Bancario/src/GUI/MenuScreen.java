@@ -26,8 +26,10 @@ public class MenuScreen extends JPanel {
         setLayout(new BorderLayout());
         setBackground(BLANCO);
         add(crearHeader(), BorderLayout.NORTH);
-
+        add(crearSidebar(), BorderLayout.WEST);
+        add(crearPanelCentral(), BorderLayout.CENTER);
     }
+
 
     private JPanel crearHeader() {
         JPanel header = new JPanel(new BorderLayout());
@@ -35,6 +37,7 @@ public class MenuScreen extends JPanel {
         header.setPreferredSize(new Dimension(0, 110));
         header.setBorder(new EmptyBorder(10, 20, 0, 20));
 
+        // ----- Fila superior: logo a la izquierda, fecha/reloj/avatar a la derecha -----
         JPanel filaSuperior = new JPanel(new BorderLayout());
         filaSuperior.setOpaque(false);
 
@@ -82,149 +85,293 @@ public class MenuScreen extends JPanel {
         return header;
     }
 
-    private JLabel crearLogoHeader() {
-        Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
 
-            Image escalada = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-            return new JLabel(new ImageIcon(escalada));
 
-    }
 
-    private JPanel crearTabHeader(String texto, boolean activa) {
-        JPanel panelTab = new JPanel();
-        panelTab.setOpaque(false);
-        panelTab.setLayout(new BoxLayout(panelTab, BoxLayout.Y_AXIS));
-        panelTab.setBorder(new EmptyBorder(8, 6, 4, 6));
-
-        JLabel lbl = new JLabel(texto);
-        lbl.setFont(new Font("Segoe UI", activa ? Font.BOLD : Font.PLAIN, 14));
-        lbl.setForeground(BLANCO);
-        lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelTab.add(lbl);
-
-        panelTab.add(Box.createVerticalStrut(6));
-
-        JPanel linea = new JPanel();
-        linea.setMaximumSize(new Dimension(texto.length() * 8 + 10, 3));
-        linea.setPreferredSize(new Dimension(texto.length() * 8 + 10, 3));
-        linea.setBackground(activa ? BLANCO : ROJO_BA);
-        linea.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelTab.add(linea);
-
-        panelTab.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-        panelTab.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                seleccionarTab(texto, lbl, linea);
+        private JLabel crearLogoHeader() {
+            Image img = cargarImagen("/ASSETS/LOGO.png");
+            if (img != null) {
+                Image escalada = img.getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+                return new JLabel(new ImageIcon(escalada));
+            } else {
+                JLabel lbl = new JLabel("Banco Atlántida");
+                lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+                lbl.setForeground(BLANCO);
+                return lbl;
             }
+        }
 
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                if (tabActivaLabel != lbl) {
-                    panelTab.setOpaque(true);
-                    panelTab.setBackground(ROJO_OSCURO);
+        private JPanel crearTabHeader(String texto, boolean activa) {
+            JPanel panelTab = new JPanel();
+            panelTab.setOpaque(false);
+            panelTab.setLayout(new BoxLayout(panelTab, BoxLayout.Y_AXIS));
+            panelTab.setBorder(new EmptyBorder(8, 6, 4, 6));
+
+            JLabel lbl = new JLabel(texto);
+            lbl.setFont(new Font("Segoe UI", activa ? Font.BOLD : Font.PLAIN, 14));
+            lbl.setForeground(BLANCO);
+            lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
+            panelTab.add(lbl);
+
+            panelTab.add(Box.createVerticalStrut(6));
+
+            JPanel linea = new JPanel();
+            linea.setMaximumSize(new Dimension(texto.length() * 8 + 10, 3));
+            linea.setPreferredSize(new Dimension(texto.length() * 8 + 10, 3));
+            linea.setBackground(activa ? BLANCO : ROJO_BA);
+            linea.setAlignmentX(Component.CENTER_ALIGNMENT);
+            panelTab.add(linea);
+
+            panelTab.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            panelTab.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    seleccionarTab(texto, lbl, linea);
+                }
+
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    if (tabActivaLabel != lbl) {
+                        panelTab.setOpaque(true);
+                        panelTab.setBackground(ROJO_OSCURO);
+                        panelTab.repaint();
+                    }
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    panelTab.setOpaque(false);
                     panelTab.repaint();
                 }
+            });
+
+            if (activa) {
+                tabActivaLabel = lbl;
+                tabActivaLinea = linea;
+                tabActivaTexto = texto;
             }
 
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                panelTab.setOpaque(false);
-                panelTab.repaint();
+            return panelTab;
+        }
+
+        private void seleccionarTab(String texto, JLabel lblClickeado, JPanel lineaClickeada) {
+            if (tabActivaLabel != null) {
+                tabActivaLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             }
-        });
-
-        if (activa) {
-            tabActivaLabel = lbl;
-            tabActivaLinea = linea;
-            tabActivaTexto = texto;
-        }
-
-        return panelTab;
-    }
-
-    private void seleccionarTab(String texto, JLabel lblClickeado, JPanel lineaClickeada) {
-        if (tabActivaLabel != null) {
-            tabActivaLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        }
-        if (tabActivaLinea != null) {
-            tabActivaLinea.setBackground(ROJO_BA);
-        }
-
-        lblClickeado.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lineaClickeada.setBackground(BLANCO);
-
-        tabActivaLabel = lblClickeado;
-        tabActivaLinea = lineaClickeada;
-        tabActivaTexto = texto;
-
-        System.out.println("Pestaña seleccionada: " + texto);
-    }
-
-    private Image cargarImagen(String ruta) {
-        try {
-            URL url = getClass().getResource(ruta);
-            if (url != null) {
-                return new ImageIcon(url).getImage();
+            if (tabActivaLinea != null) {
+                tabActivaLinea.setBackground(ROJO_BA);
             }
-        } catch (Exception e) {
-            System.err.println("No se pudo cargar imagen: " + ruta);
+
+            lblClickeado.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            lineaClickeada.setBackground(BLANCO);
+
+            tabActivaLabel  = lblClickeado;
+            tabActivaLinea  = lineaClickeada;
+            tabActivaTexto  = texto;
+
+            System.out.println("Pestaña seleccionada: " + texto);
         }
-        return null;
+
+        private JLabel crearAvatar() {
+            JLabel avatar = new JLabel("👤");
+            avatar.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+            avatar.setForeground(BLANCO);
+            avatar.setOpaque(true);
+            avatar.setBackground(ROJO_OSCURO);
+            avatar.setHorizontalAlignment(SwingConstants.CENTER);
+            avatar.setPreferredSize(new Dimension(36, 36));
+            avatar.setBorder(new LineBorder(BLANCO, 2, true));
+            return avatar;
+        }
+
+        private JPanel crearSidebar() {
+            JPanel sidebar = new JPanel();
+            sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
+            sidebar.setBackground(BLANCO);
+            sidebar.setPreferredSize(new Dimension(280, 0));
+            sidebar.setBorder(new CompoundBorder(
+                    new MatteBorder(0, 0, 0, 1, GRIS_BORDE),
+                    new EmptyBorder(15, 15, 15, 15)
+            ));
+
+            JTextField buscador = new JTextField("  o cuenta");
+            buscador.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            buscador.setForeground(GRIS_TEXTO);
+            buscador.setBackground(GRIS_CAJA);
+            buscador.setBorder(new CompoundBorder(
+                    new LineBorder(GRIS_BORDE, 1, true),
+                    new EmptyBorder(8, 10, 8, 10)
+            ));
+            buscador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+            buscador.setAlignmentX(Component.LEFT_ALIGNMENT);
+            sidebar.add(buscador);
+            sidebar.add(Box.createVerticalStrut(15));
+
+            JButton btnVolver = new JButton("←  Volver al inicio");
+            btnVolver.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            btnVolver.setForeground(Color.DARK_GRAY);
+            btnVolver.setBackground(GRIS_CLARO);
+            btnVolver.setBorder(new CompoundBorder(
+                    new LineBorder(GRIS_BORDE, 1, true),
+                    new EmptyBorder(8, 10, 8, 10)
+            ));
+            btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
+            btnVolver.setFocusPainted(false);
+            btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
+            btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+            sidebar.add(btnVolver);
+            sidebar.add(Box.createVerticalStrut(20));
+
+            sidebar.add(crearCategoria("ABRIR CUENTA", new String[]{
+                    "Cuenta de Ahorros",
+                    "Cuenta Corriente",
+                    "Cuenta Plazo Fijo"
+            }));
+            sidebar.add(Box.createVerticalStrut(18));
+
+            sidebar.add(crearCategoria("OPERACIONES", new String[]{
+                    "Depósito",
+                    "Retiro",
+                    "Transferencia"
+            }));
+            sidebar.add(Box.createVerticalStrut(18));
+
+            sidebar.add(crearCategoria("CONSULTAS", new String[]{
+                    "Buscar Cuenta",
+                    "Estado de Cuenta"
+            }));
+
+            sidebar.add(Box.createVerticalGlue());
+
+            JPanel panelBotones = new JPanel(new GridLayout(1, 2, 8, 0));
+            panelBotones.setOpaque(false);
+            panelBotones.setAlignmentX(Component.LEFT_ALIGNMENT);
+            panelBotones.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+
+            JButton btn1 = crearBotonInferior("⟳  Actualizar");
+            JButton btn2 = crearBotonInferior("⏻  Salir");
+            panelBotones.add(btn1);
+            panelBotones.add(btn2);
+
+            sidebar.add(panelBotones);
+
+            return sidebar;
+        }
+
+        private JPanel crearCategoria(String titulo, String[] opciones) {
+            JPanel categoria = new JPanel();
+            categoria.setLayout(new BoxLayout(categoria, BoxLayout.Y_AXIS));
+            categoria.setOpaque(false);
+            categoria.setAlignmentX(Component.LEFT_ALIGNMENT);
+            categoria.setMaximumSize(new Dimension(Integer.MAX_VALUE, 9999));
+
+            JPanel encabezado = new JPanel(new BorderLayout());
+            encabezado.setOpaque(false);
+            encabezado.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+            encabezado.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+            JLabel lblTitulo = new JLabel(titulo);
+            lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 12));
+            lblTitulo.setForeground(Color.DARK_GRAY);
+            encabezado.add(lblTitulo, BorderLayout.WEST);
+
+            JLabel lblFlecha = new JLabel("▲");
+            lblFlecha.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+            lblFlecha.setForeground(GRIS_TEXTO);
+            encabezado.add(lblFlecha, BorderLayout.EAST);
+
+            categoria.add(encabezado);
+            categoria.add(Box.createVerticalStrut(8));
+
+            for (String opcion : opciones) {
+                categoria.add(crearCajaOpcion(opcion));
+                categoria.add(Box.createVerticalStrut(6));
+            }
+
+            return categoria;
+        }
+
+        private JButton crearCajaOpcion(String texto) {
+            JButton caja = new JButton(texto);
+            caja.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            caja.setForeground(Color.DARK_GRAY);
+            caja.setBackground(GRIS_CAJA);
+            caja.setHorizontalAlignment(SwingConstants.LEFT);
+            caja.setBorder(new CompoundBorder(
+                    new LineBorder(GRIS_BORDE, 1, true),
+                    new EmptyBorder(10, 14, 10, 14)
+            ));
+            caja.setFocusPainted(false);
+            caja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            caja.setAlignmentX(Component.LEFT_ALIGNMENT);
+            caja.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+
+
+            caja.addChangeListener(e -> {
+                if (caja.getModel().isRollover()) {
+                    caja.setBackground(new Color(230, 230, 230));
+                } else {
+                    caja.setBackground(GRIS_CAJA);
+                }
+            });
+
+            return caja;
+        }
+
+        private JButton crearBotonInferior(String texto) {
+            JButton btn = new JButton(texto);
+            btn.setFont(new Font("Segoe UI", Font.BOLD, 11));
+            btn.setForeground(ROJO_BA);
+            btn.setBackground(BLANCO);
+            btn.setBorder(new LineBorder(ROJO_BA, 1, true));
+            btn.setFocusPainted(false);
+            btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            return btn;
+        }
+
+
+        private JPanel crearPanelCentral() {
+            JPanel centro = new JPanel();
+            centro.setLayout(new GridBagLayout());
+            centro.setBackground(GRIS_CLARO);
+
+            JPanel tarjeta = new JPanel();
+            tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
+            tarjeta.setBackground(BLANCO);
+            tarjeta.setBorder(new CompoundBorder(
+                    new LineBorder(GRIS_BORDE, 1, true),
+                    new EmptyBorder(50, 70, 50, 70)
+            ));
+
+            Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
+            JLabel lblLogoGrande;
+            if (img != null) {
+                Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
+                lblLogoGrande = new JLabel(new ImageIcon(escalada));
+            } else {
+                lblLogoGrande = new JLabel("Banco Atlántida");
+                lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
+                lblLogoGrande.setForeground(new Color(210, 210, 210));
+            }
+            lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
+            tarjeta.add(lblLogoGrande);
+
+            centro.add(tarjeta);
+            return centro;
+        }
+
+
+        private Image cargarImagen(String ruta) {
+            try {
+                URL url = getClass().getResource(ruta);
+                if (url != null) return new ImageIcon(url).getImage();
+            } catch (Exception e) {
+                System.err.println("No se pudo cargar imagen: " + ruta);
+            }
+            return null;
+        }
+
+
     }
-
-    private JLabel crearAvatar() {
-        JLabel avatar = new JLabel("👤");
-        avatar.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-        avatar.setForeground(BLANCO);
-        avatar.setOpaque(true);
-        avatar.setBackground(ROJO_OSCURO);
-        avatar.setHorizontalAlignment(SwingConstants.CENTER);
-        avatar.setPreferredSize(new Dimension(36, 36));
-        avatar.setBorder(new LineBorder(BLANCO, 2, true));
-        return avatar;
-    }
-
-    private JPanel crearSisdebar(){
-        JPanel sidebar = new JPanel();
-        sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBackground((BLANCO));
-        sidebar.setPreferredSize(new Dimension(280,0));
-        sidebar.setBorder(new CompoundBorder(
-                new MatteBorder(0,0,0,1,GRIS_BORDE),
-                new EmptyBorder(15,15,15,15)
-        ));
-        JTextField buscador = new JTextField("🔍  Buscar operación o cuenta");
-        buscador.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        buscador.setForeground(GRIS_TEXTO);
-        buscador.setBackground(GRIS_CAJA);
-        buscador.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(8, 10, 8, 10)
-        ));
-        buscador.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
-        buscador.setAlignmentX(Component.LEFT_ALIGNMENT);
-        sidebar.add(buscador);
-        sidebar.add(Box.createVerticalStrut(15));
-
-        JButton btnVolver = new JButton("←  Volver al inicio");
-        btnVolver.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        btnVolver.setForeground(Color.DARK_GRAY);
-        btnVolver.setBackground(GRIS_CLARO);
-        btnVolver.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(8, 10, 8, 10)
-        ));
-        btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
-        btnVolver.setFocusPainted(false);
-        btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
-        sidebar.add(btnVolver);
-        sidebar.add(Box.createVerticalStrut(20));
-        
-    }
-
-
-}
