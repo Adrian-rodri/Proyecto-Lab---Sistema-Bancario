@@ -7,13 +7,14 @@ import java.awt.*;
 import java.net.URL;
 
 public class MenuScreen extends JPanel {
-    private static final Color ROJO_BA       = new Color(180, 20, 20);
-    private static final Color ROJO_OSCURO   = new Color(140, 12, 12);
-    private static final Color GRIS_CLARO    = new Color(248, 248, 248);
-    private static final Color GRIS_CAJA     = new Color(240, 240, 240);
-    private static final Color GRIS_BORDE    = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO    = new Color(110, 110, 110);
-    private static final Color BLANCO        = Color.WHITE;
+
+    private static final Color ROJO_BA = new Color(180, 20, 20);
+    private static final Color ROJO_OSCURO = new Color(140, 12, 12);
+    private static final Color GRIS_CLARO = new Color(248, 248, 248);
+    private static final Color GRIS_CAJA = new Color(240, 240, 240);
+    private static final Color GRIS_BORDE = new Color(225, 225, 225);
+    private static final Color GRIS_TEXTO = new Color(110, 110, 110);
+    private static final Color BLANCO = Color.WHITE;
 
     private JLabel tabActivaLabel;
     private JPanel tabActivaLinea;
@@ -24,8 +25,8 @@ public class MenuScreen extends JPanel {
         setBackground(BLANCO);
         add(crearHeader(), BorderLayout.NORTH);
 
-
     }
+
     private JPanel crearHeader() {
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(ROJO_BA);
@@ -151,18 +152,19 @@ public class MenuScreen extends JPanel {
         lblClickeado.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lineaClickeada.setBackground(BLANCO);
 
-        tabActivaLabel  = lblClickeado;
-        tabActivaLinea  = lineaClickeada;
-        tabActivaTexto  = texto;
+        tabActivaLabel = lblClickeado;
+        tabActivaLinea = lineaClickeada;
+        tabActivaTexto = texto;
 
         System.out.println("Pestaña seleccionada: " + texto);
     }
 
-
     private Image cargarImagen(String ruta) {
         try {
             URL url = getClass().getResource(ruta);
-            if (url != null) return new ImageIcon(url).getImage();
+            if (url != null) {
+                return new ImageIcon(url).getImage();
+            }
         } catch (Exception e) {
             System.err.println("No se pudo cargar imagen: " + ruta);
         }
@@ -181,4 +183,4 @@ public class MenuScreen extends JPanel {
         return avatar;
     }
 
-    }
+}
