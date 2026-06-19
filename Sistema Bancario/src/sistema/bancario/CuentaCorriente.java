@@ -1,4 +1,4 @@
-package banco.dominio;
+package sistema.bancario;
 
 public class CuentaCorriente extends CuentaBancaria {
 

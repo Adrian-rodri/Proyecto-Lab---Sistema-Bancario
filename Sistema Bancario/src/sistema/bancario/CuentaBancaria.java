@@ -71,6 +71,13 @@ public abstract class CuentaBancaria implements Transaccionable, Serializable {
         }
         return false;
     }
+    public void registrarTransaccion(TipoTransaccion tipo, double monto, String descripcion){
+        
+    }
+    public void actualizarSaldo(double monto){
+        setSaldo(monto);
+    }
+    
 
     @Override
     public abstract boolean retirar(double monto);

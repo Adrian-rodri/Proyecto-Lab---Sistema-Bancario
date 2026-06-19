@@ -54,7 +54,7 @@ public class LoginFrame extends JFrame {
         setMinimumSize(new Dimension(750,500));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
     }
 

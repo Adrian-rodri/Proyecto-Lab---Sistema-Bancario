@@ -1,4 +1,4 @@
-package banco.dominio;
+package sistema.bancario;
 
 public class CuentaAhorros extends CuentaBancaria {
 
