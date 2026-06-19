@@ -30,36 +30,30 @@ public class MenuScreen extends JPanel {
     private JPanel crearHeader() {
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(ROJO_BA);
-        header.setPreferredSize(new Dimension(0, 100));
-        header.setBorder(new EmptyBorder(0, 20, 0, 20));
+        header.setPreferredSize(new Dimension(0, 110));
+        header.setBorder(new EmptyBorder(10, 20, 0, 20));
+
+        JPanel filaSuperior = new JPanel(new BorderLayout());
+        filaSuperior.setOpaque(false);
 
         JPanel panelLogo = new JPanel();
         panelLogo.setOpaque(false);
         panelLogo.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         JLabel lblLogo = crearLogoHeader();
         panelLogo.add(lblLogo);
-        header.add(panelLogo, BorderLayout.WEST);
-
-        JPanel panelTabs = new JPanel(new FlowLayout(FlowLayout.CENTER, 35, 0));
-        panelTabs.setOpaque(false);
-
-        String[] tabs = {"Cuentas", "Operaciones", "Estado de Cuenta", "Intereses", "Reportes"};
-        for (int i = 0; i < tabs.length; i++) {
-            panelTabs.add(crearTabHeader(tabs[i], i == 0));
-        }
-        header.add(panelTabs, BorderLayout.CENTER);
+        filaSuperior.add(panelLogo, BorderLayout.WEST);
 
         JPanel panelDerecha = new JPanel();
         panelDerecha.setOpaque(false);
         panelDerecha.setLayout(new BoxLayout(panelDerecha, BoxLayout.X_AXIS));
 
-        JLabel lblFecha = new JLabel("📅 " + java.time.LocalDate.now().toString());
+        JLabel lblFecha = new JLabel("" + java.time.LocalDate.now().toString());
         lblFecha.setForeground(BLANCO);
         lblFecha.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         panelDerecha.add(lblFecha);
         panelDerecha.add(Box.createHorizontalStrut(20));
 
-        JLabel lblReloj = new JLabel("🕐");
+        JLabel lblReloj = new JLabel("");
         lblReloj.setForeground(BLANCO);
         lblReloj.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         panelDerecha.add(lblReloj);
@@ -68,22 +62,30 @@ public class MenuScreen extends JPanel {
         JLabel lblAvatar = crearAvatar();
         panelDerecha.add(lblAvatar);
 
-        header.add(panelDerecha, BorderLayout.EAST);
+        filaSuperior.add(panelDerecha, BorderLayout.EAST);
+
+        header.add(filaSuperior, BorderLayout.NORTH);
+
+        // ----- Fila inferior: pestañas centradas, separadas del logo -----
+        JPanel panelTabs = new JPanel(new FlowLayout(FlowLayout.CENTER, 35, 0));
+        panelTabs.setOpaque(false);
+        panelTabs.setBorder(new EmptyBorder(8, 0, 0, 0));
+
+        String[] tabs = {"Cuentas", "Operaciones", "Estado de Cuenta", "Intereses", "Reportes"};
+        for (int i = 0; i < tabs.length; i++) {
+            panelTabs.add(crearTabHeader(tabs[i], i == 0));
+        }
+        header.add(panelTabs, BorderLayout.CENTER);
 
         return header;
     }
 
     private JLabel crearLogoHeader() {
-        Image img = cargarImagen("/ASSETS/LOGO.png");
-        if (img != null) {
+        Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
+
             Image escalada = img.getScaledInstance(150, 50, Image.SCALE_SMOOTH);
             return new JLabel(new ImageIcon(escalada));
-        } else {
-            JLabel lbl = new JLabel("Banco Atlántida");
-            lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-            lbl.setForeground(BLANCO);
-            return lbl;
-        }
+
     }
 
     private JPanel crearTabHeader(String texto, boolean activa) {
@@ -148,7 +150,6 @@ public class MenuScreen extends JPanel {
             tabActivaLinea.setBackground(ROJO_BA);
         }
 
-        // Activar la nueva
         lblClickeado.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lineaClickeada.setBackground(BLANCO);
 
