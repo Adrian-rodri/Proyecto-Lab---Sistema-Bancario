@@ -291,8 +291,7 @@ public class LoginFrame extends JPanel {
 
     private void loginExitoso() {
         lblErorr.setText(" ");
-        //dispose();
-        SwingUtilities.invokeLater(() -> new Menu().setVisible(true));
+        MainFrame.cambiarPantalla(new Menu(), USUARIO_VALIDO);
     }
 
     private void bloquearSistema() {

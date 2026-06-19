@@ -1,9 +1,12 @@
 package GUI;
 
-import java.awt.Color;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 public class MainFrame extends JFrame{
+    private static JPanel paneles;
+    private static CardLayout cardLayout;
     
     public MainFrame(){
         setTitle("Banco Atlantida - Inciar Sesion");
@@ -12,8 +15,14 @@ public class MainFrame extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
-        this.add(new LoginFrame());
-        this.setBackground(new Color(180, 20, 20));
+        cardLayout= new CardLayout();
+        paneles= new JPanel(cardLayout);
+        paneles.add(new LoginFrame(),"Inicio");
+        add(paneles);
         this.setVisible(true);
+    }
+    public static void cambiarPantalla(JPanel newPanel, String name){
+        paneles.add(newPanel,name);
+        cardLayout.show(paneles, name);
     }
 }
