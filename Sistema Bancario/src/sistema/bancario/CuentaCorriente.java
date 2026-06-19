@@ -25,12 +25,7 @@ public class CuentaCorriente extends CuentaBancaria {
     public boolean retirar(double monto) {
 
         if (monto <= 0) {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro rechazado: el monto debe ser mayor que cero"
-            );
-
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro rechazado: el monto debe ser mayor que cero");
             return false;
         }
 
@@ -44,11 +39,7 @@ public class CuentaCorriente extends CuentaBancaria {
         double saldoFinal = saldoDespuesDelRetiro - comision;
 
         if (saldoFinal < -limiteSobregiro) {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro rechazado: supera el límite de sobregiro"
-            );
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro rechazado: supera el límite de sobregiro");
 
             return false;
         }
@@ -56,17 +47,9 @@ public class CuentaCorriente extends CuentaBancaria {
         actualizarSaldo(saldoFinal);
 
         if (comision > 0) {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro realizado con sobregiro. Comisión aplicada: L. "
-                    + String.format("%.2f", comision)
-            );
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro realizado con sobregiro. Comisión aplicada: L. "+ String.format("%.2f", comision));
         } else {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro realizado desde cuenta corriente"
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro realizado desde cuenta corriente"
             );
         }
 

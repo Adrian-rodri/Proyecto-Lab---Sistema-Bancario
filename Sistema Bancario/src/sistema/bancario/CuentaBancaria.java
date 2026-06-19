@@ -26,7 +26,6 @@ public abstract class CuentaBancaria implements Transaccionable, Serializable {
             return false;
         }
         saldo += monto;
-//        escribirEnHistorial(TipoTransaccion.DEPOSITO, monto, "Depósito en efectivo");
         System.out.println("Depósito exitoso. Nuevo saldo: L. " + String.format("%,.2f", saldo));
         return true;
     }
@@ -62,17 +61,17 @@ public abstract class CuentaBancaria implements Transaccionable, Serializable {
 
             String descOrigen = "Transferencia enviada a cta " + destino.numeroCuenta;
             String descDestino = "Transferencia recibida de cta " + this.numeroCuenta;
-
-//            escribirEnHistorial(TipoTransaccion.TRANSFERENCIA_ENVIO, monto, descOrigen);
-//            destino.escribirEnHistorial(TipoTransaccion.TRANSFERENCIA_RECIBO, monto, descDestino);
-
+            
             System.out.println("Transferencia exitosa: L. " + String.format("%,.2f", monto));
             return true;
         }
         return false;
     }
     public void registrarTransaccion(TipoTransaccion tipo, double monto, String descripcion){
-        
+        //en espera para registrar en historial
+    }
+    public void escribirHistorial(){
+        //en espera tmb
     }
     public void actualizarSaldo(double monto){
         setSaldo(monto);

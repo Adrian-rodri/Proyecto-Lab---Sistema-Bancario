@@ -57,30 +57,19 @@ public class CuentaPlazoFijo extends CuentaAhorros {
         double totalDescontar = monto + penalizacion;
 
         if (totalDescontar > getSaldo()) {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro rechazado: saldo insuficiente para cubrir el retiro y la penalización"
-            );
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro rechazado: saldo insuficiente para cubrir el retiro y la penalización");
 
             return false;
         }
 
         actualizarSaldo(getSaldo() - monto);
 
-        registrarTransaccion(
-                TipoTransaccion.RETIRO,
-                monto,
-                "Retiro realizado desde cuenta a plazo fijo"
-        );
+        registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro realizado desde cuenta a plazo fijo");
 
         if (penalizacion > 0) {
             actualizarSaldo(getSaldo() - penalizacion);
 
-            registrarTransaccion(
-                    TipoTransaccion.PENALIZACION,
-                    penalizacion,
-                    "Penalización aplicada por retiro anticipado"
+            registrarTransaccion(TipoTransaccion.PENALIZACION,penalizacion,"Penalización aplicada por retiro anticipado"
             );
         }
 

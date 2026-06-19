@@ -11,7 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 
-public class LoginFrame extends JPanel {
+public class LoginScreen extends JPanel {
 
     //PALETA DE COLORES
     private static final Color ROJO_BA = new Color(180, 20, 20);
@@ -32,7 +32,7 @@ public class LoginFrame extends JPanel {
     private JCheckBox chkMostrar;
     private int intentosFallidos;
 
-    public LoginFrame() {
+    public LoginScreen() {
         setLayout(new BorderLayout());
         JPanel panelFondo = crearPanelFondo();
         JPanel tarjeta = crearTarjetaLogin();
@@ -42,18 +42,7 @@ public class LoginFrame extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         panelFondo.add(tarjeta, gbc);
         this.add(panelFondo,BorderLayout.CENTER);
-       // setContentPane(panelFondo);
         setVisible(true);
-    }
-
-    private void configurarVentana() {
-//        setTitle("Banco Atlantida - Inciar Sesion");
-//        setSize(900, 620);
-//        setMinimumSize(new Dimension(750, 500));
-//        setLocationRelativeTo(null);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setResizable(true);
-
     }
 
     private JPanel crearPanelFondo() {
@@ -291,7 +280,7 @@ public class LoginFrame extends JPanel {
 
     private void loginExitoso() {
         lblErorr.setText(" ");
-        MainFrame.cambiarPantalla(new Menu(), USUARIO_VALIDO);
+        MainFrame.cambiarPantalla(new MenuScreen(), USUARIO_VALIDO);
     }
 
     private void bloquearSistema() {

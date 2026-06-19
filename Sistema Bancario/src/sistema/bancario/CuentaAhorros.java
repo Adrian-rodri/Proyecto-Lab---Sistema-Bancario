@@ -21,23 +21,14 @@ public class CuentaAhorros extends CuentaBancaria {
 
     @Override
     public boolean retirar(double monto) {
-
         if (monto <= 0) {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro rechazado: el monto debe ser mayor que cero"
-            );
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro rechazado: el monto debe ser mayor que cero");
 
             return false;
         }
 
         if (monto > getSaldo()) {
-            registrarTransaccion(
-                    TipoTransaccion.RETIRO,
-                    monto,
-                    "Retiro rechazado: saldo insuficiente"
-            );
+            registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro rechazado: saldo insuficiente");
 
             return false;
         }
@@ -45,11 +36,7 @@ public class CuentaAhorros extends CuentaBancaria {
         double nuevoSaldo = getSaldo() - monto;
         actualizarSaldo(nuevoSaldo);
 
-        registrarTransaccion(
-                TipoTransaccion.RETIRO,
-                monto,
-                "Retiro realizado desde cuenta de ahorros"
-        );
+        registrarTransaccion(TipoTransaccion.RETIRO,monto,"Retiro realizado desde cuenta de ahorros");
 
         return true;
     }

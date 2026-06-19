@@ -17,7 +17,7 @@ public class MainFrame extends JFrame{
         setResizable(true);
         cardLayout= new CardLayout();
         paneles= new JPanel(cardLayout);
-        paneles.add(new LoginFrame(),"Inicio");
+        paneles.add(new LoginScreen(),"Inicio");
         add(paneles);
         this.setVisible(true);
     }
