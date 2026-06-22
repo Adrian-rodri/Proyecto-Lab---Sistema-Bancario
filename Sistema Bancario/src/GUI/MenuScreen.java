@@ -269,7 +269,6 @@ public class MenuScreen extends JPanel {
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
-
     private void mostrarSidebarOperaciones() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
@@ -333,38 +332,33 @@ public class MenuScreen extends JPanel {
         p.add(lbl);
         mostrarEnCentro(p);
     }
-        private JPanel crearCategoria(String titulo, String[] opciones) {
-            JPanel categoria = new JPanel();
-            categoria.setLayout(new BoxLayout(categoria, BoxLayout.Y_AXIS));
-            categoria.setOpaque(false);
-            categoria.setAlignmentX(Component.LEFT_ALIGNMENT);
-            categoria.setMaximumSize(new Dimension(Integer.MAX_VALUE, 9999));
 
-            JPanel encabezado = new JPanel(new BorderLayout());
-            encabezado.setOpaque(false);
-            encabezado.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
-            encabezado.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-            JLabel lblTitulo = new JLabel(titulo);
-            lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 12));
-            lblTitulo.setForeground(Color.DARK_GRAY);
-            encabezado.add(lblTitulo, BorderLayout.WEST);
+    private JPanel crearCategoria(String titulo, String[] opciones, Runnable[] acciones) {
+        JPanel categoria = new JPanel();
+        categoria.setLayout(new BoxLayout(categoria, BoxLayout.Y_AXIS));
+        categoria.setOpaque(false);
+        categoria.setAlignmentX(Component.LEFT_ALIGNMENT);
+        categoria.setMaximumSize(new Dimension(Integer.MAX_VALUE, 9999));
 
-            JLabel lblFlecha = new JLabel("");
-            lblFlecha.setFont(new Font("Segoe UI", Font.PLAIN, 10));
-            lblFlecha.setForeground(GRIS_TEXTO);
-            encabezado.add(lblFlecha, BorderLayout.EAST);
+        JLabel lblTitulo = new JLabel(titulo);
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblTitulo.setForeground(Color.DARK_GRAY);
+        lblTitulo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        categoria.add(lblTitulo);
+        categoria.add(Box.createVerticalStrut(8));
 
-            categoria.add(encabezado);
-            categoria.add(Box.createVerticalStrut(8));
-
-            for (String opcion : opciones) {
-                categoria.add(crearCajaOpcion(opcion));
-                categoria.add(Box.createVerticalStrut(6));
-            }
-
-            return categoria;
+        for (int i = 0; i < opciones.length; i++) {
+            final Runnable accion = acciones[i];
+            JButton btn = crearCajaOpcion(opciones[i]);
+            btn.addActionListener(e -> accion.run());
+            categoria.add(btn);
+            categoria.add(Box.createVerticalStrut(6));
         }
+
+        return categoria;
+    }
+
 
         private JButton crearCajaOpcion(String texto) {
             JButton caja = new JButton(texto);
