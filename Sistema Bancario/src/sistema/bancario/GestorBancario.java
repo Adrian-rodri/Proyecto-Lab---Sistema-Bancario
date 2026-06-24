@@ -274,22 +274,47 @@ public class GestorBancario {
     Logica para calculos y totales
     */
     public double calcularTotalAhorros(){
-        return 0;
+        double total=0;
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i] instanceof CuentaAhorros && !(cuentas[i] instanceof CuentaPlazoFijo))
+                total+=cuentas[i].getSaldo();
+        }
+        return total;
     }
     
     public double calcularTotalCorriente(){
-        return 0;
+        double total=0;
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i] instanceof CuentaCorriente){
+                total+=cuentas[i].getSaldo();
+            }
+        }
+        return total;
     }
     
     public double calcularTotalPlazoFijo(){
-        return 0;
+        double total=0;
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i] instanceof CuentaPlazoFijo){
+                total+=cuentas[i].getSaldo();
+            }
+        }
+        return total;
     }
     
     public double calcularTotalGeneral(){
-        return 0;
+        double total= calcularTotalAhorros()+ calcularTotalCorriente()+calcularTotalPlazoFijo();
+        return total;
     }
     
     public void aplicarInteresesMensuales(){
-        return;
+        for(int i=0; i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                double interes= cuentas[i].calcularInteresMensual();
+                if(interes>0){
+                    cuentas[i].depositar(interes);
+                }
+            }
+        }
     }
 }

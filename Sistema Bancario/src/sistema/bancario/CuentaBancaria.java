@@ -1,6 +1,8 @@
 package sistema.bancario;
 
 import java.io.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public abstract class CuentaBancaria implements Transaccionable, Serializable {
 
@@ -16,7 +18,7 @@ public abstract class CuentaBancaria implements Transaccionable, Serializable {
         this.dpi = dpi;
         this.fechaApertura = fechaApertura;
         this.saldo = saldoInicial;
-        this.archivoHistorial = new File("historial_" + numeroCuenta + ".txt");
+        this.archivoHistorial = new File("datos/historiales/historial_" + numeroCuenta + ".txt");
     }
 
     @Override
@@ -26,7 +28,7 @@ public abstract class CuentaBancaria implements Transaccionable, Serializable {
             return false;
         }
         saldo += monto;
-        System.out.println("Depósito exitoso. Nuevo saldo: L. " + String.format("%,.2f", saldo));
+        registrarTransaccion(TipoTransaccion.DEPOSITO,monto,"Deposito realizado");
         return true;
     }
 
@@ -44,34 +46,41 @@ public abstract class CuentaBancaria implements Transaccionable, Serializable {
     @Override
     public boolean transferirA(CuentaBancaria destino, double monto) {
         if (monto <= 0) {
-            System.err.println("El monto debe ser positivo.");
-            return false;
-        }
-        if (this == destino) {
-            System.err.println("No se puede transferir a la misma cuenta.");
+            JOptionPane.showMessageDialog(new JFrame(),"El monto debe ser positivo.");
             return false;
         }
         if (destino == null) {
-            System.err.println("Cuenta destino no válida.");
+            JOptionPane.showMessageDialog(new JFrame(),"Cuenta destino no válida.");
             return false;
         }
+        if (this == destino) {
+            JOptionPane.showMessageDialog(new JFrame(),"No se puede transferir a la misma cuenta.");
+            return false;
+        }
+        
 
         if (this.retirar(monto)) {
             destino.depositar(monto);
-
-            String descOrigen = "Transferencia enviada a cta " + destino.numeroCuenta;
-            String descDestino = "Transferencia recibida de cta " + this.numeroCuenta;
             
-            System.out.println("Transferencia exitosa: L. " + String.format("%,.2f", monto));
+            escribirHistorial("RESUMEN TRANSFERENCIA: L. "+String.format("%,.2f", monto)+" enviados a cta "+destino.numeroCuenta);
+            
+            destino.escribirHistorial("RESUMEN TRANSFERENCIA: L. "+String.format("%,.2f", monto)+" recibidos de cta " + this.numeroCuenta);
+            
+            JOptionPane.showMessageDialog(new JFrame(),"Transferencia exitosa: L. " + String.format("%,.2f", monto));
             return true;
         }
         return false;
     }
     public void registrarTransaccion(TipoTransaccion tipo, double monto, String descripcion){
-        //en espera para registrar en historial
+        Transaccion transaccion= new Transaccion(tipo,monto,getSaldo(),descripcion,numeroCuenta);
+        escribirHistorial(transaccion.toLinea());
     }
-    public void escribirHistorial(){
-        //en espera tmb
+    public void escribirHistorial(String linea){
+        try(FileWriter writer= new FileWriter(archivoHistorial,true)){
+            writer.write(linea+"\n");
+        }catch(IOException e){
+            System.err.println("Error: "+e.getMessage());
+        }
     }
     public void actualizarSaldo(double monto){
         setSaldo(monto);
