@@ -301,6 +301,25 @@ public class GestorBancario {
         }
         return total;
     }
+    public double calcularTotalGeneral(){
+        double total= calcularTotalAhorros()+ calcularTotalCorriente()+calcularTotalPlazoFijo();
+        return total;
+    }
+    
+    public void aplicarInteresesMensuales(){
+        for(int i=0; i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                double interes= cuentas[i].calcularInteresMensual();
+                if(interes>0){
+                    cuentas[i].depositar(interes);
+                }
+            }
+        }
+    }
+    
+    /*
+    Movimientos en cuentas
+    */
     public void realizarDeposito(String numeroCuenta, double monto){
         CuentaBancaria cuenta= buscarPorNumero(numeroCuenta);
         if(cuenta==null){
@@ -332,6 +351,9 @@ public class GestorBancario {
         origen.transferirA(destino, monto);
         guardarConsolidado();
     }
+    /*
+    Historial
+    */
 
     public void guardarConsolidado(){
         serializarSistema();
@@ -358,20 +380,5 @@ public class GestorBancario {
             return "";
         }
         return sb.toString();
-    }
-    public double calcularTotalGeneral(){
-        double total= calcularTotalAhorros()+ calcularTotalCorriente()+calcularTotalPlazoFijo();
-        return total;
-    }
-    
-    public void aplicarInteresesMensuales(){
-        for(int i=0; i<indexCuentas;i++){
-            if(cuentas[i]!=null){
-                double interes= cuentas[i].calcularInteresMensual();
-                if(interes>0){
-                    cuentas[i].depositar(interes);
-                }
-            }
-        }
     }
 }
