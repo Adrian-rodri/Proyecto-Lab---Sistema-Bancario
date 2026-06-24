@@ -180,6 +180,8 @@ public class MenuScreen extends JPanel {
             case "Cuentas" -> mostrarSidebarCuentas();
             case "Operaciones" -> mostrarSidebarOperaciones();
             case "Estado de Cuenta" -> mostrarSidebarEstadoCuenta();
+            case "Intereses" -> mostrarSidebarIntereses();
+            case "Reportes" -> mostrarSidebarReportes();
             default -> {
                 contenidoSidebar.removeAll();
                 contenidoSidebar.revalidate();
@@ -228,10 +230,10 @@ public class MenuScreen extends JPanel {
         btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
         btnVolver.addActionListener(e -> {
             sidebar.setVisible(false);
+            mostrarPantallaInicio();
             revalidate();
             repaint();
         });
-
         JPanel norte = new JPanel();
         norte.setLayout(new BoxLayout(norte, BoxLayout.Y_AXIS));
         norte.setOpaque(false);
@@ -242,11 +244,24 @@ public class MenuScreen extends JPanel {
         contenidoSidebar.setLayout(new BoxLayout(contenidoSidebar, BoxLayout.Y_AXIS));
         contenidoSidebar.setOpaque(false);
 
-        JPanel botones = new JPanel(new GridLayout(1, 2, 8, 0));
+        JPanel botones = new JPanel(new GridLayout(1, 1, 8, 0));
         botones.setOpaque(false);
         botones.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
-        botones.add(crearBotonInferior("Actualizar"));
-        botones.add(crearBotonInferior("Salir"));
+
+        JButton btnSalir = crearBotonInferior("Salir");
+        btnSalir.addActionListener(e -> {
+            int confirmar = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Está seguro que desea salir del sistema?",
+                    "Confirmar salida",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+            if (confirmar == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
+        botones.add(btnSalir);
 
         panel.add(norte, BorderLayout.NORTH);
         panel.add(contenidoSidebar, BorderLayout.CENTER);
@@ -269,6 +284,74 @@ public class MenuScreen extends JPanel {
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
+
+    private void mostrarPantallaInicio() {
+        panelCentral.removeAll();
+        panelCentral.setLayout(new GridBagLayout());
+
+        JPanel tarjeta = new JPanel();
+        tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
+        tarjeta.setBackground(BLANCO);
+        tarjeta.setBorder(new CompoundBorder(
+                new LineBorder(GRIS_BORDE, 1, true),
+                new EmptyBorder(50, 70, 50, 70)
+        ));
+
+        Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
+        JLabel lblLogoGrande;
+        if (img != null) {
+            Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
+            lblLogoGrande = new JLabel(new ImageIcon(escalada));
+        } else {
+            lblLogoGrande = new JLabel("Banco Atlántida");
+            lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
+            lblLogoGrande.setForeground(new Color(210, 210, 210));
+        }
+        lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tarjeta.add(lblLogoGrande);
+
+        panelCentral.add(tarjeta);
+        panelCentral.revalidate();
+        panelCentral.repaint();
+    }
+
+    private void mostrarSidebarIntereses() {
+        contenidoSidebar.removeAll();
+        contenidoSidebar.add(crearCategoria("INTERESES", new String[]{
+                "Aplicar Intereses Mensuales"
+        }, new Runnable[]{
+                () -> mostrarEnCentro(new InteresesPanel())
+        }));
+        contenidoSidebar.revalidate();
+        contenidoSidebar.repaint();
+    }
+
+    private void mostrarSidebarReportes() {
+        contenidoSidebar.removeAll();
+        contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
+                "Buscar Cuenta"
+        }, new Runnable[]{
+                () -> mostrarEnCentro(new BuscarCuentaPanel(c -> {
+                    cuentaSeleccionada = c;
+                }))
+        }));
+        contenidoSidebar.add(Box.createVerticalStrut(18));
+        contenidoSidebar.add(crearCategoria("REPORTES", new String[]{
+                "Ver Reporte de Cuenta"
+        }, new Runnable[]{
+                () -> manejarReporte()
+        }));
+        contenidoSidebar.revalidate();
+        contenidoSidebar.repaint();
+    }
+    private void manejarReporte() {
+        if (cuentaSeleccionada == null) {
+            mostrarMensajeCentro("Seleccione una cuenta primero para ver el reporte");
+        } else {
+            mostrarEnCentro(new ReportePanel(cuentaSeleccionada));
+        }
+    }
+
     private void mostrarSidebarOperaciones() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
@@ -301,11 +384,12 @@ public class MenuScreen extends JPanel {
                 () -> mostrarEnCentro(new BuscarCuentaPanel(c -> {
                     cuentaSeleccionada = c;
                 })),
-                () -> mostrarEnCentro(new JPanel())
+                () -> manejarEstadoCuenta()
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
+
 
     private void manejarOperacion(String tipo) {
         if (cuentaSeleccionada == null) {
@@ -439,6 +523,14 @@ public class MenuScreen extends JPanel {
             }
             return null;
         }
+
+    private void manejarEstadoCuenta() {
+        if (cuentaSeleccionada == null) {
+            mostrarMensajeCentro("Seleccione una cuenta primero para ver el estado de cuenta");
+        } else {
+            mostrarMensajeCentro("Estado de cuenta de " + cuentaSeleccionada.getNumeroCuenta() + " (placeholder)");
+        }
+    }
 
 
     }
