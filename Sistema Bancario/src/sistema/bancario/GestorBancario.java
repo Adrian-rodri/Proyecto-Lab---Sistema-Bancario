@@ -301,7 +301,64 @@ public class GestorBancario {
         }
         return total;
     }
+    public void realizarDeposito(String numeroCuenta, double monto){
+        CuentaBancaria cuenta= buscarPorNumero(numeroCuenta);
+        if(cuenta==null){
+            JOptionPane.showMessageDialog(new JFrame(), "Cuenta no encontrada");
+            return;
+        }
+        cuenta.depositar(monto);
+        guardarConsolidado();
+    }
+
+    public void realizarRetiro(String numeroCuenta, double monto){
+        CuentaBancaria cuenta= buscarPorNumero(numeroCuenta);
+        if(cuenta== null){
+            JOptionPane.showMessageDialog(new JFrame(), "Cuenta no encontrada");
+            return;
+        }
+        cuenta.retirar(monto);
+        guardarConsolidado();
+    }
+
+    public void realizarTransferencia(String numeroOrigen, String numeroDestino, double monto){
+        CuentaBancaria origen= buscarPorNumero(numeroOrigen);
+        CuentaBancaria destino= buscarPorNumero(numeroDestino);
+        
+        if(origen==null || destino==null){
+            JOptionPane.showMessageDialog(new JFrame(), "Cuenta origen o destino no encontrada");
+            return;
+        }
+        origen.transferirA(destino, monto);
+        guardarConsolidado();
+    }
+
+    public void guardarConsolidado(){
+        serializarSistema();
+        guardarSaldosBinario(LocalDate.now().toString(),getTotalCuentas(),calcularTotalAhorros(),calcularTotalCorriente(),calcularTotalPlazoFijo(),calcularTotalGeneral());
+    }
     
+    public String leerHistorialCuenta(String numeroCuenta){
+        File archivo= new File("datos/historiales/historial_" + numeroCuenta + ".txt");
+
+        if(!archivo.exists())
+            return "No hay historial para esta cuenta";
+
+        if(archivo.length()==0)
+            return "El historial esta vacio";
+
+        StringBuilder sb= new StringBuilder();
+        try(BufferedReader reader=new BufferedReader(new FileReader(archivo))){
+            String linea;
+            while((linea = reader.readLine()) !=null){
+                sb.append(linea).append("\n");
+            }
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(new JFrame(), "Error al leer historial: " + e.getMessage());
+            return "";
+        }
+        return sb.toString();
+    }
     public double calcularTotalGeneral(){
         double total= calcularTotalAhorros()+ calcularTotalCorriente()+calcularTotalPlazoFijo();
         return total;
