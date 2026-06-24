@@ -213,16 +213,36 @@ public class GestorBancario {
     */
     
     public CuentaBancaria buscarPorNumero(String numeroCuenta){
-        //futura logica
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                if(cuentas[i].getNumeroCuenta().equals(numeroCuenta))
+                    return cuentas[i];
+            }
+        }
         return null;
     }
     
-    public CuentaBancaria buscarPorDPI(String dpi){
-        return null;
+    public ArrayList<CuentaBancaria> buscarPorDPI(String dpi){
+        ArrayList<CuentaBancaria> results= new ArrayList<>();
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                if(cuentas[i].getDpi().equals(dpi))
+                    results.add(cuentas[i]);
+            }
+        }
+        return results;
     }
     
-    public ArrayList<CuentaBancaria> buscarPorTitular(){
-        return null;
+    public ArrayList<CuentaBancaria> buscarPorTitular(String nombre){
+        ArrayList<CuentaBancaria> results= new ArrayList<>();
+        String lowercase=nombre.toLowerCase();
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                if(cuentas[i].getTitular().toLowerCase().contains(lowercase))
+                    results.add(cuentas[i]);
+            }
+        }
+        return results;
     }
     
     public int getTotalCuentas(){
@@ -230,11 +250,24 @@ public class GestorBancario {
     }
     
     public String listarCuentas(){
-        return "";
+        String lista= "";
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                lista+=cuentas[i].toString()+"\n";
+            }
+        }
+        return lista;
     }
     
     public String listarCuentasPorTipo(String prefijo){
-        return "";
+        String lista= "";
+        for(int i=0;i<indexCuentas;i++){
+            if(cuentas[i]!=null){
+                if(cuentas[i].getNumeroCuenta().startsWith(prefijo))
+                    lista+=cuentas[i].toString()+"\n";
+            }
+        }
+        return lista;
     }
     
     /*
