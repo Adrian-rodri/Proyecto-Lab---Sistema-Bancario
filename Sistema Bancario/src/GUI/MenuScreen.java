@@ -1,6 +1,7 @@
 package GUI;
 
 import sistema.bancario.CuentaBancaria;
+import sistema.bancario.GestorBancario;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -27,9 +28,11 @@ public class MenuScreen extends JPanel {
     private JPanel contenidoSidebar;
     private CuentaBancaria cuentaSeleccionada = null;
     private JPanel panelCentral;
+    private final GestorBancario gestor;
 
 
-    public MenuScreen() {
+    public MenuScreen(GestorBancario gestor) {
+        this.gestor = gestor;
         setLayout(new BorderLayout());
         setBackground(BLANCO);
         sidebar = crearSidebar();
@@ -277,9 +280,9 @@ public class MenuScreen extends JPanel {
                 "Cuenta Corriente",
                 "Cuenta Plazo Fijo"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new AbrirCuentaPanel("ahorros")),
-                () -> mostrarEnCentro(new AbrirCuentaPanel("corriente")),
-                () -> mostrarEnCentro(new AbrirCuentaPanel("plazofijo"))
+                () -> mostrarEnCentro(new AbrirCuentaPanel("ahorros", gestor)),
+                () -> mostrarEnCentro(new AbrirCuentaPanel("corriente", gestor)),
+                () -> mostrarEnCentro(new AbrirCuentaPanel("plazofijo", gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
@@ -320,7 +323,7 @@ public class MenuScreen extends JPanel {
         contenidoSidebar.add(crearCategoria("INTERESES", new String[]{
                 "Aplicar Intereses Mensuales"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new InteresesPanel())
+                () -> mostrarEnCentro(new InteresesPanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
@@ -331,7 +334,7 @@ public class MenuScreen extends JPanel {
         contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
                 "Buscar Cuenta"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new BuscarCuentaPanel(c -> {
+                () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
                     cuentaSeleccionada = c;
                 }))
         }));
@@ -348,7 +351,7 @@ public class MenuScreen extends JPanel {
         if (cuentaSeleccionada == null) {
             mostrarMensajeCentro("Seleccione una cuenta primero para ver el reporte");
         } else {
-            mostrarEnCentro(new ReportePanel(cuentaSeleccionada));
+            mostrarEnCentro(new ReportePanel(cuentaSeleccionada, gestor));
         }
     }
 
@@ -357,7 +360,7 @@ public class MenuScreen extends JPanel {
         contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
                 "Buscar Cuenta"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new BuscarCuentaPanel(c -> {
+                () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
                     cuentaSeleccionada = c;
                 }))
         }));
@@ -381,7 +384,7 @@ public class MenuScreen extends JPanel {
                 "Buscar Cuenta",
                 "Estado de Cuenta"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new BuscarCuentaPanel(c -> {
+                () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
                     cuentaSeleccionada = c;
                 })),
                 () -> manejarEstadoCuenta()
@@ -394,9 +397,15 @@ public class MenuScreen extends JPanel {
     private void manejarOperacion(String tipo) {
         if (cuentaSeleccionada == null) {
             mostrarMensajeCentro("Seleccione una cuenta primero para realizar un " + tipo);
-        } else {
-            mostrarMensajeCentro("Operación: " + tipo + " — cuenta " + cuentaSeleccionada.getNumeroCuenta());
+            return;
         }
+        String tipoInterno = switch (tipo) {
+            case "Depósito" -> "deposito";
+            case "Retiro" -> "retiro";
+            case "Transferencia" -> "transferencia";
+            default -> "";
+        };
+        mostrarEnCentro(new OperacionPanel(tipoInterno, cuentaSeleccionada, gestor));
     }
 
     private void mostrarEnCentro(JPanel panel) {
@@ -528,7 +537,15 @@ public class MenuScreen extends JPanel {
         if (cuentaSeleccionada == null) {
             mostrarMensajeCentro("Seleccione una cuenta primero para ver el estado de cuenta");
         } else {
-            mostrarMensajeCentro("Estado de cuenta de " + cuentaSeleccionada.getNumeroCuenta() + " (placeholder)");
+            String historial = gestor.leerHistorialCuenta(cuentaSeleccionada.getNumeroCuenta());
+            JPanel p = new JPanel(new BorderLayout());
+            p.setBackground(GRIS_CLARO);
+            p.setBorder(new EmptyBorder(20, 20, 20, 20));
+            JTextArea area = new JTextArea("Estado de cuenta: " + cuentaSeleccionada.getNumeroCuenta() + "\n\n" + historial);
+            area.setEditable(false);
+            area.setFont(new Font("Consolas", Font.PLAIN, 13));
+            p.add(new JScrollPane(area), BorderLayout.CENTER);
+            mostrarEnCentro(p);
         }
     }
 

@@ -1,6 +1,7 @@
 package GUI;
 
 import sistema.bancario.CuentaBancaria;
+import sistema.bancario.GestorBancario;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -19,9 +20,10 @@ public class BuscarCuentaPanel extends JPanel {
     private JTextField txtNumero;
     private JPanel panelResultado;
     private final Consumer<CuentaBancaria> onCuentaSeleccionada;
-
-    public BuscarCuentaPanel(Consumer<CuentaBancaria> onCuentaSeleccionada) {
+    private final GestorBancario gestor;
+    public BuscarCuentaPanel(Consumer<CuentaBancaria> onCuentaSeleccionada, GestorBancario gestor) {
         this.onCuentaSeleccionada = onCuentaSeleccionada;
+        this.gestor = gestor;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
@@ -105,7 +107,7 @@ public class BuscarCuentaPanel extends JPanel {
         }
 
 
-        CuentaBancaria cuenta = null;
+        CuentaBancaria cuenta = gestor.buscarPorNumero(numero);
 
         if (cuenta == null) {
             mostrarMensaje("No se encontró ninguna cuenta con ese número.", GRIS_TEXTO);
