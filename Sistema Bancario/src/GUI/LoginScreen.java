@@ -1,5 +1,7 @@
 package GUI;
 
+import sistema.bancario.GestorBancario;
+
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -280,7 +282,8 @@ public class LoginScreen extends JPanel {
 
     private void loginExitoso() {
         lblErorr.setText(" ");
-        MainFrame.cambiarPantalla(new MenuScreen(), USUARIO_VALIDO);
+        GestorBancario gestor = MainFrame.getGestor();
+        MainFrame.cambiarPantalla(new MenuScreen(gestor), "Menu");
     }
 
     private void bloquearSistema() {

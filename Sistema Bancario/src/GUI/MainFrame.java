@@ -12,8 +12,10 @@ public class MainFrame extends JFrame {
     private static CardLayout cardLayout;
 
     private static GestorBancario gestor;
+    private static MainFrame instancia;
 
     public MainFrame() {
+        instancia = this;
         setTitle("Banco Atlantida - Inciar Sesion");
         setSize(900, 620);
         setMinimumSize(new Dimension(750, 500));

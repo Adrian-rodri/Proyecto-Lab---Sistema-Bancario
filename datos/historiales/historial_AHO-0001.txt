@@ -1,0 +1,10 @@
+24/06/2026 22:11:37 | DEP | AHO-0001 | L. 83.33 | Saldo: L. 583.33 | Deposito realizado
+
+24/06/2026 22:12:12 | DEP | AHO-0001 | L. 500.00 | Saldo: L. 1,083.33 | Deposito realizado
+
+24/06/2026 22:34:23 | RET | AHO-0001 | L. 13.00 | Saldo: L. 1,070.33 | Retiro realizado desde cuenta de ahorros
+
+RESUMEN TRANSFERENCIA: L. 13.00 enviados a cta AHO-0002
+24/06/2026 22:36:16 | RET | AHO-0001 | L. 123.00 | Saldo: L. 947.33 | Retiro realizado desde cuenta de ahorros
+
+RESUMEN TRANSFERENCIA: L. 123.00 enviados a cta AHO-0002

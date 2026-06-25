@@ -1,10 +1,12 @@
 package GUI;
 
 import sistema.bancario.CuentaBancaria;
+import sistema.bancario.GestorBancario;
 
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.util.function.Consumer;
 
 public class OperacionPanel extends JPanel {
 
@@ -16,13 +18,16 @@ public class OperacionPanel extends JPanel {
 
     private final String tipo;
     private final CuentaBancaria cuentaOrigen;
-
+    private final GestorBancario gestor;
+    private final Consumer<JPanel> mostrarEnCentro;
     private JTextField txtMonto;
     private JTextField txtCuentaDestino;
 
-    public OperacionPanel(String tipo, CuentaBancaria cuentaOrigen) {
+    public OperacionPanel(String tipo, CuentaBancaria cuentaOrigen, sistema.bancario.GestorBancario gestor, Consumer<JPanel> mostrarEnCentro) {
         this.tipo          = tipo;
         this.cuentaOrigen  = cuentaOrigen;
+        this.gestor = gestor;
+        this.mostrarEnCentro = mostrarEnCentro;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
@@ -36,8 +41,7 @@ public class OperacionPanel extends JPanel {
                 new LineBorder(GRIS_BORDE, 1, true),
                 new EmptyBorder(35, 50, 35, 50)
         ));
-        tarjeta.setPreferredSize(new Dimension(480, tipo.equals("transferencia") ? 420 : 360));
-
+        tarjeta.setPreferredSize(new Dimension(520, tipo.equals("transferencia") ? 520 : 380));
         agregarTitulo(tarjeta);
         agregarInfoCuenta(tarjeta);
         tarjeta.add(Box.createVerticalStrut(20));
@@ -117,7 +121,29 @@ public class OperacionPanel extends JPanel {
 
         if (tipo.equals("transferencia")) {
             txtCuentaDestino = agregarCampo(panel, "Número de cuenta destino");
+
+            JButton btnElegir = new JButton("Elegir cuenta destino");
+            btnElegir.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            btnElegir.setForeground(ROJO_BA);
+            btnElegir.setBackground(BLANCO);
+            btnElegir.setBorder(new CompoundBorder(
+                    new LineBorder(ROJO_BA, 1, true),
+                    new EmptyBorder(6, 14, 6, 14)
+            ));
+            btnElegir.setFocusPainted(false);
+            btnElegir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            btnElegir.setAlignmentX(Component.LEFT_ALIGNMENT);
+            btnElegir.addActionListener(e -> abrirSelectorDestino());
+            panel.add(btnElegir);
+            panel.add(Box.createVerticalStrut(14));
         }
+    }
+
+    private void abrirSelectorDestino() {
+        mostrarEnCentro.accept(new SeleccionarCuentaPanel(gestor, cuenta -> {
+            txtCuentaDestino.setText(cuenta.getNumeroCuenta());
+            mostrarEnCentro.accept(this);
+        }));
     }
 
     private JTextField agregarCampo(JPanel panel, String etiqueta) {
@@ -169,9 +195,11 @@ public class OperacionPanel extends JPanel {
 
             switch (tipo) {
                 case "deposito" -> {
+                    gestor.realizarDeposito(cuentaOrigen.getNumeroCuenta(), monto);
                     mostrarExito("Depósito de L. " + String.format("%,.2f", monto) + " realizado.");
                 }
                 case "retiro" -> {
+                    gestor.realizarRetiro(cuentaOrigen.getNumeroCuenta(), monto);
                     mostrarExito("Retiro de L. " + String.format("%,.2f", monto) + " realizado.");
                 }
                 case "transferencia" -> {
@@ -180,6 +208,7 @@ public class OperacionPanel extends JPanel {
                         mostrarError("Ingrese el número de cuenta destino.");
                         return;
                     }
+                    gestor.realizarTransferencia(cuentaOrigen.getNumeroCuenta(), destino, monto);
                     mostrarExito("Transferencia de L. " + String.format("%,.2f", monto) + " a cuenta " + destino + " realizada.");
                 }
             }

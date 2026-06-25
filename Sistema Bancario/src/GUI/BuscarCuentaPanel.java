@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.util.function.Consumer;
+import java.util.ArrayList;
 
 public class BuscarCuentaPanel extends JPanel {
 
@@ -19,9 +20,11 @@ public class BuscarCuentaPanel extends JPanel {
 
     private JTextField txtNumero;
     private JPanel panelResultado;
+    private JComboBox<String> comboCriterio;
+
     private final Consumer<CuentaBancaria> onCuentaSeleccionada;
-    private final GestorBancario gestor;
-    public BuscarCuentaPanel(Consumer<CuentaBancaria> onCuentaSeleccionada, GestorBancario gestor) {
+    private final sistema.bancario.GestorBancario gestor;
+    public BuscarCuentaPanel(GestorBancario gestor, Consumer<CuentaBancaria> onCuentaSeleccionada) {
         this.onCuentaSeleccionada = onCuentaSeleccionada;
         this.gestor = gestor;
         setLayout(new GridBagLayout());
@@ -52,13 +55,19 @@ public class BuscarCuentaPanel extends JPanel {
         sep.setAlignmentX(Component.LEFT_ALIGNMENT);
         tarjeta.add(sep);
         tarjeta.add(Box.createVerticalStrut(24));
-
-        JLabel lbl = new JLabel("Número de cuenta");
+        JLabel lbl = new JLabel("Buscar por:");
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lbl.setForeground(GRIS_TEXTO);
         lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
         tarjeta.add(lbl);
         tarjeta.add(Box.createVerticalStrut(4));
+
+        comboCriterio = new JComboBox<>(new String[]{"Número de cuenta", "DPI", "Titular (nombre)"});
+        comboCriterio.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        comboCriterio.setMaximumSize(new Dimension(Integer.MAX_VALUE, 32));
+        comboCriterio.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tarjeta.add(comboCriterio);
+        tarjeta.add(Box.createVerticalStrut(14));
 
         JPanel filaBusqueda = new JPanel();
         filaBusqueda.setLayout(new BoxLayout(filaBusqueda, BoxLayout.X_AXIS));
@@ -92,7 +101,16 @@ public class BuscarCuentaPanel extends JPanel {
         panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS));
         panelResultado.setOpaque(false);
         panelResultado.setAlignmentX(Component.LEFT_ALIGNMENT);
-        tarjeta.add(panelResultado);
+
+        JScrollPane scrollResultado = new JScrollPane(panelResultado);
+        scrollResultado.setBorder(null);
+        scrollResultado.setOpaque(false);
+        scrollResultado.getViewport().setOpaque(false);
+        scrollResultado.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollResultado.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollResultado.setAlignmentX(Component.LEFT_ALIGNMENT);
+        scrollResultado.setPreferredSize(new Dimension(460, 220));
+        tarjeta.add(scrollResultado);
 
         add(tarjeta);
     }
@@ -100,19 +118,43 @@ public class BuscarCuentaPanel extends JPanel {
     private void accionBuscar() {
         panelResultado.removeAll();
 
-        String numero = txtNumero.getText().trim();
-        if (numero.isEmpty()) {
-            mostrarMensaje("Ingrese un número de cuenta.", Color.RED);
+        String valor = txtNumero.getText().trim();
+        if (valor.isEmpty()) {
+            mostrarMensaje("Ingrese un valor para buscar.", Color.RED);
+            panelResultado.revalidate();
+            panelResultado.repaint();
             return;
         }
 
+        String criterio = (String) comboCriterio.getSelectedItem();
 
-        CuentaBancaria cuenta = gestor.buscarPorNumero(numero);
+        if ("Número de cuenta".equals(criterio)) {
+            CuentaBancaria cuenta = gestor.buscarPorNumero(valor);
+            if (cuenta == null) {
+                mostrarMensaje("No se encontró ninguna cuenta con ese número.", GRIS_TEXTO);
+            } else {
+                mostrarResultado(cuenta);
+            }
 
-        if (cuenta == null) {
-            mostrarMensaje("No se encontró ninguna cuenta con ese número.", GRIS_TEXTO);
+        } else if ("DPI".equals(criterio)) {
+            ArrayList<CuentaBancaria> resultados = gestor.buscarPorDPI(valor);
+            if (resultados == null || resultados.isEmpty()) {
+                mostrarMensaje("No se encontraron cuentas con ese DPI.", GRIS_TEXTO);
+            } else {
+                for (CuentaBancaria c : resultados) {
+                    mostrarResultado(c);
+                }
+            }
+
         } else {
-            mostrarResultado(cuenta);
+            ArrayList<CuentaBancaria> resultados = gestor.buscarPorTitular(valor);
+            if (resultados == null || resultados.isEmpty()) {
+                mostrarMensaje("No se encontraron cuentas con ese nombre.", GRIS_TEXTO);
+            } else {
+                for (CuentaBancaria c : resultados) {
+                    mostrarResultado(c);
+                }
+            }
         }
 
         panelResultado.revalidate();
@@ -155,8 +197,8 @@ public class BuscarCuentaPanel extends JPanel {
         caja.add(btnSeleccionar);
 
         panelResultado.add(caja);
+        panelResultado.add(Box.createVerticalStrut(10));
     }
-
     private void agregarFila(JPanel panel, String etiqueta, String valor) {
         JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 2));
         fila.setOpaque(false);

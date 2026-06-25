@@ -15,8 +15,10 @@ public class InteresesPanel extends JPanel {
     private static final Color VERDE      = new Color(34, 139, 34);
 
     private JPanel panelResultado;
+    private final sistema.bancario.GestorBancario gestor;
 
-    public InteresesPanel() {
+    public InteresesPanel(sistema.bancario.GestorBancario gestor) {
+        this.gestor = gestor;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
@@ -76,8 +78,8 @@ public class InteresesPanel extends JPanel {
     }
 
     private void accionAplicar() {
+        gestor.aplicarInteresesMensuales();
         panelResultado.removeAll();
-
         JLabel lbl = new JLabel("APLICADOS");
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lbl.setForeground(VERDE);

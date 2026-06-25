@@ -1,0 +1,8 @@
+24/06/2026 22:16:30 | DEP | AHO-0002 | L. 2,000.00 | Saldo: L. 3,000.00 | Deposito realizado
+
+24/06/2026 22:34:23 | DEP | AHO-0002 | L. 13.00 | Saldo: L. 3,013.00 | Deposito realizado
+
+RESUMEN TRANSFERENCIA: L. 13.00 recibidos de cta AHO-0001
+24/06/2026 22:36:16 | DEP | AHO-0002 | L. 123.00 | Saldo: L. 3,136.00 | Deposito realizado
+
+RESUMEN TRANSFERENCIA: L. 123.00 recibidos de cta AHO-0001

@@ -1,6 +1,6 @@
 package GUI;
 
-import sistema.bancario.CuentaBancaria;
+import sistema.bancario.GestorBancario;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -16,11 +16,11 @@ public class ReportePanel extends JPanel {
     private static final Color BLANCO     = Color.WHITE;
     private static final Color VERDE      = new Color(34, 139, 34);
 
-    private final CuentaBancaria cuenta;
+    private final GestorBancario gestor;
     private JPanel panelResultado;
 
-    public ReportePanel(CuentaBancaria cuenta) {
-        this.cuenta = cuenta;
+    public ReportePanel(GestorBancario gestor) {
+        this.gestor = gestor;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
@@ -34,25 +34,70 @@ public class ReportePanel extends JPanel {
                 new LineBorder(GRIS_BORDE, 1, true),
                 new EmptyBorder(35, 50, 35, 50)
         ));
-        tarjeta.setPreferredSize(new Dimension(520, 420));
+        tarjeta.setPreferredSize(new Dimension(560, 420));agregarTitulo(tarjeta);
+        tarjeta.add(Box.createVerticalStrut(16));
 
-        agregarTitulo(tarjeta);
-        agregarInfoCuenta(tarjeta);
-        tarjeta.add(Box.createVerticalStrut(24));
-        tarjeta.add(crearBotonGenerar());
+        JPanel filaBotones = new JPanel();
+        filaBotones.setLayout(new BoxLayout(filaBotones, BoxLayout.X_AXIS));
+        filaBotones.setOpaque(false);
+        filaBotones.setAlignmentX(Component.LEFT_ALIGNMENT);
+        filaBotones.add(crearBotonGenerar());
+        filaBotones.add(Box.createHorizontalStrut(10));
+        filaBotones.add(crearBotonHistorialSaldos());
+        tarjeta.add(filaBotones);
+
         tarjeta.add(Box.createVerticalStrut(16));
 
         panelResultado = new JPanel();
-        panelResultado.setLayout(new BoxLayout(panelResultado, BoxLayout.Y_AXIS));
+        panelResultado.setLayout(new BorderLayout());
         panelResultado.setOpaque(false);
-        panelResultado.setAlignmentX(Component.LEFT_ALIGNMENT);
         tarjeta.add(panelResultado);
 
         add(tarjeta);
     }
 
+    private JButton crearBotonHistorialSaldos() {
+        JButton btn = new JButton("Historial de Saldos Consolidados");
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        btn.setForeground(ROJO_BA);
+        btn.setBackground(BLANCO);
+        btn.setBorder(new LineBorder(ROJO_BA, 1, true));
+        btn.setFocusPainted(false);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn.addActionListener(e -> accionVerHistorialSaldos());
+        return btn;
+    }
+
+    private void accionVerHistorialSaldos() {
+        panelResultado.removeAll();
+
+        String historial = gestor.cargarSaldosBinario();
+
+        JTextArea area = new JTextArea(
+                historial == null || historial.isBlank()
+                        ? "No hay historial de saldos consolidados guardado."
+                        : historial
+        );
+        area.setEditable(false);
+        area.setFont(new Font("Consolas", Font.PLAIN, 12));
+        area.setBackground(GRIS_CLARO);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setCaretPosition(0);
+
+        JScrollPane scroll = new JScrollPane(area);
+        scroll.setBorder(new LineBorder(GRIS_BORDE, 1, true));
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setPreferredSize(new Dimension(440, 220));
+
+        panelResultado.add(scroll, BorderLayout.CENTER);
+        panelResultado.revalidate();
+        panelResultado.repaint();
+    }
+
     private void agregarTitulo(JPanel panel) {
-        JLabel lbl = new JLabel("Reporte de Cuenta");
+        JLabel lbl = new JLabel("Reporte General del Banco");
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lbl.setForeground(ROJO_BA);
         lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -64,52 +109,10 @@ public class ReportePanel extends JPanel {
         sep.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
         sep.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(sep);
-        panel.add(Box.createVerticalStrut(20));
-    }
-
-    private void agregarInfoCuenta(JPanel panel) {
-        JPanel caja = new JPanel();
-        caja.setLayout(new BoxLayout(caja, BoxLayout.Y_AXIS));
-        caja.setBackground(new Color(250, 240, 240));
-        caja.setBorder(new CompoundBorder(
-                new LineBorder(new Color(220, 180, 180), 1, true),
-                new EmptyBorder(12, 16, 12, 16)
-        ));
-        caja.setAlignmentX(Component.LEFT_ALIGNMENT);
-        caja.setMaximumSize(new Dimension(Integer.MAX_VALUE, 9999));
-
-        JLabel lblTitulo = new JLabel("Cuenta seleccionada");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 11));
-        lblTitulo.setForeground(ROJO_BA);
-        caja.add(lblTitulo);
-        caja.add(Box.createVerticalStrut(6));
-
-        agregarFilaInfo(caja, "Número:",       cuenta.getNumeroCuenta());
-        agregarFilaInfo(caja, "Titular:",      cuenta.getTitular());
-        agregarFilaInfo(caja, "Saldo actual:", "L. " + String.format("%,.2f", cuenta.getSaldo()));
-
-        panel.add(caja);
-    }
-
-    private void agregarFilaInfo(JPanel panel, String etiqueta, String valor) {
-        JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 2));
-        fila.setOpaque(false);
-
-        JLabel lblE = new JLabel(etiqueta + "  ");
-        lblE.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        lblE.setForeground(GRIS_TEXTO);
-
-        JLabel lblV = new JLabel(valor);
-        lblV.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lblV.setForeground(Color.DARK_GRAY);
-
-        fila.add(lblE);
-        fila.add(lblV);
-        panel.add(fila);
     }
 
     private JButton crearBotonGenerar() {
-        JButton btn = new JButton("Generar Reporte");
+        JButton btn = new JButton("Generar Reporte General");
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btn.setForeground(BLANCO);
         btn.setBackground(ROJO_BA);
@@ -124,13 +127,59 @@ public class ReportePanel extends JPanel {
     private void accionGenerar() {
         panelResultado.removeAll();
 
-        JLabel lbl = new JLabel("Reporte generado para la cuenta "
-                + cuenta.getNumeroCuenta() + ". (placeholder)");
-        lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        lbl.setForeground(VERDE);
-        lbl.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panelResultado.add(lbl);
+        StringBuilder sb = new StringBuilder();
 
+        sb.append("=== TOTALES DEL BANCO ===\n\n");
+        sb.append(String.format("Total de cuentas:        %d%n", gestor.getTotalCuentas()));
+        sb.append(String.format("Total en Ahorros:         L. %,.2f%n", gestor.calcularTotalAhorros()));
+        sb.append(String.format("Total en Corriente:       L. %,.2f%n", gestor.calcularTotalCorriente()));
+        sb.append(String.format("Total en Plazo Fijo:      L. %,.2f%n", gestor.calcularTotalPlazoFijo()));
+        sb.append(String.format("TOTAL GENERAL DEL BANCO:  L. %,.2f%n", gestor.calcularTotalGeneral()));
+        sb.append("\n");
+
+        String listado = gestor.listarCuentas();
+        sb.append("=== LISTADO DE CUENTAS ===\n\n");
+        if (listado == null || listado.isBlank()) {
+            sb.append("No hay cuentas registradas.\n");
+        } else {
+            sb.append(listado);
+        }
+        sb.append("\n");
+
+        sb.append("=== HISTORIAL DE TRANSACCIONES (TODAS LAS CUENTAS) ===\n\n");
+        if (listado == null || listado.isBlank()) {
+            sb.append("No hay transacciones para mostrar.\n");
+        } else {
+            String[] lineas = listado.split("\n");
+            for (String linea : lineas) {
+                if (linea.isBlank()) continue;
+                String[] partes = linea.split("\\|");
+                if (partes.length == 0) continue;
+                String numeroCuenta = partes[0].trim();
+
+                sb.append("--- Cuenta ").append(numeroCuenta).append(" ---\n");
+                String historial = gestor.leerHistorialCuenta(numeroCuenta);
+                sb.append(historial == null || historial.isBlank()
+                        ? "Sin movimientos.\n"
+                        : historial);
+                sb.append("\n");
+            }
+        }
+
+        JTextArea area = new JTextArea(sb.toString());
+        area.setEditable(false);
+        area.setFont(new Font("Consolas", Font.PLAIN, 12));
+        area.setBackground(GRIS_CLARO);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setCaretPosition(0);
+
+        JScrollPane scroll = new JScrollPane(area);
+        scroll.setBorder(new LineBorder(GRIS_BORDE, 1, true));
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setPreferredSize(new Dimension(440, 220));
+        panelResultado.add(scroll, BorderLayout.CENTER);
         panelResultado.revalidate();
         panelResultado.repaint();
     }

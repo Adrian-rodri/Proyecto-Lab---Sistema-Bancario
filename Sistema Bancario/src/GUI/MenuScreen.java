@@ -284,9 +284,16 @@ public class MenuScreen extends JPanel {
                 () -> mostrarEnCentro(new AbrirCuentaPanel("corriente", gestor)),
                 () -> mostrarEnCentro(new AbrirCuentaPanel("plazofijo", gestor))
         }));
+        contenidoSidebar.add(Box.createVerticalStrut(18));
+        contenidoSidebar.add(crearCategoria("CONSULTAS", new String[]{
+                "Ver Cuentas"
+        }, new Runnable[]{
+                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
+
 
     private void mostrarPantallaInicio() {
         panelCentral.removeAll();
@@ -325,35 +332,27 @@ public class MenuScreen extends JPanel {
         }, new Runnable[]{
                 () -> mostrarEnCentro(new InteresesPanel(gestor))
         }));
+        contenidoSidebar.add(Box.createVerticalStrut(18));
+        contenidoSidebar.add(crearCategoria("CONSULTAS", new String[]{
+                "Ver Cuentas"
+        }, new Runnable[]{
+                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
 
     private void mostrarSidebarReportes() {
         contenidoSidebar.removeAll();
-        contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
-                "Buscar Cuenta"
-        }, new Runnable[]{
-                () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
-                    cuentaSeleccionada = c;
-                }))
-        }));
-        contenidoSidebar.add(Box.createVerticalStrut(18));
         contenidoSidebar.add(crearCategoria("REPORTES", new String[]{
-                "Ver Reporte de Cuenta"
+                "Reporte General del Banco"
         }, new Runnable[]{
-                () -> manejarReporte()
+                () -> mostrarEnCentro(new ReportePanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
-    private void manejarReporte() {
-        if (cuentaSeleccionada == null) {
-            mostrarMensajeCentro("Seleccione una cuenta primero para ver el reporte");
-        } else {
-            mostrarEnCentro(new ReportePanel(cuentaSeleccionada, gestor));
-        }
-    }
+
 
     private void mostrarSidebarOperaciones() {
         contenidoSidebar.removeAll();
@@ -374,6 +373,12 @@ public class MenuScreen extends JPanel {
                 () -> manejarOperacion("Retiro"),
                 () -> manejarOperacion("Transferencia")
         }));
+        contenidoSidebar.add(Box.createVerticalStrut(18));
+        contenidoSidebar.add(crearCategoria("CONSULTAS GENERALES", new String[]{
+                "Ver Cuentas"
+        }, new Runnable[]{
+                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
     }
@@ -388,6 +393,12 @@ public class MenuScreen extends JPanel {
                     cuentaSeleccionada = c;
                 })),
                 () -> manejarEstadoCuenta()
+        }));
+        contenidoSidebar.add(Box.createVerticalStrut(18));
+        contenidoSidebar.add(crearCategoria("CONSULTAS GENERALES", new String[]{
+                "Ver Cuentas"
+        }, new Runnable[]{
+                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
@@ -405,8 +416,7 @@ public class MenuScreen extends JPanel {
             case "Transferencia" -> "transferencia";
             default -> "";
         };
-        mostrarEnCentro(new OperacionPanel(tipoInterno, cuentaSeleccionada, gestor));
-    }
+        mostrarEnCentro(new OperacionPanel(tipoInterno, cuentaSeleccionada, gestor, this::mostrarEnCentro));    }
 
     private void mostrarEnCentro(JPanel panel) {
         panelCentral.removeAll();
