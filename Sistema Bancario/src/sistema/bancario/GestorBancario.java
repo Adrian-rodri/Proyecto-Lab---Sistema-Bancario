@@ -80,6 +80,8 @@ public class GestorBancario {
     public void restaurarSistema(){
         if(!sistemabin.exists())
             return;
+        if(sistemabin.length()==0)
+        return;
         indexCuentas=0;
         cuentas= new CuentaBancaria[500];
         try(ObjectInputStream ois=new ObjectInputStream(new FileInputStream(sistemabin))){
@@ -91,15 +93,9 @@ public class GestorBancario {
                     break;
                 }
             }
-//            CuentaBancaria cuenta;
-//            for(int i=0;i<500;i++){
-//                if((cuenta=(CuentaBancaria)ois.readObject())==null)
-//                    break;
-//                cuentas[i]=cuenta;
-//            }
-//            ois.close();
         }catch(IOException | ClassNotFoundException e){
             JOptionPane.showMessageDialog(null, "Error al restaurar sistema: "+e.getMessage());
+             System.out.println(e.getStackTrace()+"");
         }
     }
     /*

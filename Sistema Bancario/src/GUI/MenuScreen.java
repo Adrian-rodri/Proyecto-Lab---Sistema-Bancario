@@ -307,14 +307,14 @@
         new EmptyBorder(50, 70, 50, 70)
         ));
 
-        Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
+        Image img = cargarImagen("/ASSETS/LOGO4.png");
         JLabel lblLogoGrande;
         if (img != null) {
-        Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
+        Image escalada = img.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
         lblLogoGrande = new JLabel(new ImageIcon(escalada));
         } else {
         lblLogoGrande = new JLabel("Banco Atlántida");
-        lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 40));
         lblLogoGrande.setForeground(new Color(210, 210, 210));
         }
         lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -512,17 +512,17 @@
         tarjeta.setBackground(BLANCO);
         tarjeta.setBorder(new CompoundBorder(
             new LineBorder(GRIS_BORDE, 1, true),
-            new EmptyBorder(50, 70, 50, 70)
+            new EmptyBorder(60,90,60,90)
         ));
 
-        Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
+        Image img = cargarImagen("/ASSETS/LOGO4.png");
         JLabel lblLogoGrande;
         if (img != null) {
-        Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
+        Image escalada = img.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
         lblLogoGrande = new JLabel(new ImageIcon(escalada));
         } else {
         lblLogoGrande = new JLabel("Banco Atlántida");
-        lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 40));
         lblLogoGrande.setForeground(new Color(210, 210, 210));
         }
         lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
