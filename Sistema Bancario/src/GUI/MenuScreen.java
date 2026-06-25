@@ -1,37 +1,37 @@
-package GUI;
+        package GUI;
 
-import sistema.bancario.CuentaBancaria;
-import sistema.bancario.GestorBancario;
+        import sistema.bancario.CuentaBancaria;
+        import sistema.bancario.GestorBancario;
 
-import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import java.awt.*;
-import java.net.URL;
+        import javax.swing.*;
+        import javax.swing.border.CompoundBorder;
+        import javax.swing.border.EmptyBorder;
+        import javax.swing.border.LineBorder;
+        import javax.swing.border.MatteBorder;
+        import java.awt.*;
+        import java.net.URL;
 
-public class MenuScreen extends JPanel {
+        public class MenuScreen extends JPanel {
 
-    private static final Color ROJO_BA = new Color(180, 20, 20);
-    private static final Color ROJO_OSCURO = new Color(140, 12, 12);
-    private static final Color GRIS_CLARO = new Color(248, 248, 248);
-    private static final Color GRIS_CAJA = new Color(240, 240, 240);
-    private static final Color GRIS_BORDE = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO = new Color(110, 110, 110);
-    private static final Color BLANCO = Color.WHITE;
+        private static final Color ROJO_BA = new Color(180, 20, 20);
+        private static final Color ROJO_OSCURO = new Color(140, 12, 12);
+        private static final Color GRIS_CLARO = new Color(248, 248, 248);
+        private static final Color GRIS_CAJA = new Color(240, 240, 240);
+        private static final Color GRIS_BORDE = new Color(225, 225, 225);
+        private static final Color GRIS_TEXTO = new Color(110, 110, 110);
+        private static final Color BLANCO = Color.WHITE;
 
-    private JLabel tabActivaLabel;
-    private JPanel tabActivaLinea;
-    private String tabActivaTexto;
-    private JPanel sidebar;
-    private JPanel contenidoSidebar;
-    private CuentaBancaria cuentaSeleccionada = null;
-    private JPanel panelCentral;
-    private final GestorBancario gestor;
+        private JLabel tabActivaLabel;
+        private JPanel tabActivaLinea;
+        private String tabActivaTexto;
+        private JPanel sidebar;
+        private JPanel contenidoSidebar;
+        private CuentaBancaria cuentaSeleccionada = null;
+        private JPanel panelCentral;
+        private final GestorBancario gestor;
 
 
-    public MenuScreen(GestorBancario gestor) {
+        public MenuScreen(GestorBancario gestor) {
         this.gestor = gestor;
         setLayout(new BorderLayout());
         setBackground(BLANCO);
@@ -41,9 +41,9 @@ public class MenuScreen extends JPanel {
         add(crearHeader(), BorderLayout.NORTH);
         add(sidebar, BorderLayout.WEST);
         add(panelCentral, BorderLayout.CENTER);
-    }
+        }
 
-    private JPanel crearHeader() {
+        private JPanel crearHeader() {
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(ROJO_BA);
         header.setPreferredSize(new Dimension(0, 110));
@@ -88,28 +88,28 @@ public class MenuScreen extends JPanel {
 
         String[] tabs = {"Cuentas", "Operaciones", "Estado de Cuenta", "Intereses", "Reportes"};
         for (int i = 0; i < tabs.length; i++) {
-            panelTabs.add(crearTabHeader(tabs[i], i == 0));
+        panelTabs.add(crearTabHeader(tabs[i], i == 0));
         }
         header.add(panelTabs, BorderLayout.CENTER);
 
         return header;
-    }
+        }
 
 
-    private JLabel crearLogoHeader() {
+        private JLabel crearLogoHeader() {
         Image img = cargarImagen("/ASSETS/LOGO.png");
         if (img != null) {
-            Image escalada = img.getScaledInstance(150, 50, Image.SCALE_SMOOTH);
-            return new JLabel(new ImageIcon(escalada));
+        Image escalada = img.getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+        return new JLabel(new ImageIcon(escalada));
         } else {
-            JLabel lbl = new JLabel("Banco Atlántida");
-            lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-            lbl.setForeground(BLANCO);
-            return lbl;
+        JLabel lbl = new JLabel("Banco Atlántida");
+        lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lbl.setForeground(BLANCO);
+        return lbl;
         }
-    }
+        }
 
-    private JPanel crearTabHeader(String texto, boolean activa) {
+        private JPanel crearTabHeader(String texto, boolean activa) {
         JPanel panelTab = new JPanel();
         panelTab.setOpaque(false);
         panelTab.setLayout(new BoxLayout(panelTab, BoxLayout.Y_AXIS));
@@ -133,42 +133,42 @@ public class MenuScreen extends JPanel {
         panelTab.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         panelTab.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                seleccionarTab(texto, lbl, linea);
-            }
+        @Override
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+        seleccionarTab(texto, lbl, linea);
+        }
 
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
-                if (tabActivaLabel != lbl) {
-                    panelTab.setOpaque(true);
-                    panelTab.setBackground(ROJO_OSCURO);
-                    panelTab.repaint();
-                }
-            }
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent e) {
+        if (tabActivaLabel != lbl) {
+            panelTab.setOpaque(true);
+            panelTab.setBackground(ROJO_OSCURO);
+            panelTab.repaint();
+        }
+        }
 
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
-                panelTab.setOpaque(false);
-                panelTab.repaint();
-            }
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent e) {
+        panelTab.setOpaque(false);
+        panelTab.repaint();
+        }
         });
 
         if (activa) {
-            tabActivaLabel = lbl;
-            tabActivaLinea = linea;
-            tabActivaTexto = texto;
+        tabActivaLabel = lbl;
+        tabActivaLinea = linea;
+        tabActivaTexto = texto;
         }
 
         return panelTab;
-    }
+        }
 
-    private void seleccionarTab(String texto, JLabel lblClickeado, JPanel lineaClickeada) {
+        private void seleccionarTab(String texto, JLabel lblClickeado, JPanel lineaClickeada) {
         if (tabActivaLabel != null) {
-            tabActivaLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tabActivaLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         }
         if (tabActivaLinea != null) {
-            tabActivaLinea.setBackground(ROJO_BA);
+        tabActivaLinea.setBackground(ROJO_BA);
         }
 
         lblClickeado.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -180,42 +180,42 @@ public class MenuScreen extends JPanel {
 
         sidebar.setVisible(true);
         switch (texto) {
-            case "Cuentas" -> mostrarSidebarCuentas();
-            case "Operaciones" -> mostrarSidebarOperaciones();
-            case "Estado de Cuenta" -> mostrarSidebarEstadoCuenta();
-            case "Intereses" -> mostrarSidebarIntereses();
-            case "Reportes" -> mostrarSidebarReportes();
-            default -> {
-                contenidoSidebar.removeAll();
-                contenidoSidebar.revalidate();
-                contenidoSidebar.repaint();
-            }
+        case "Cuentas" -> mostrarSidebarCuentas();
+        case "Operaciones" -> mostrarSidebarOperaciones();
+        case "Estado de Cuenta" -> mostrarSidebarEstadoCuenta();
+        case "Intereses" -> mostrarSidebarIntereses();
+        case "Reportes" -> mostrarSidebarReportes();
+        default -> {
+        contenidoSidebar.removeAll();
+        contenidoSidebar.revalidate();
+        contenidoSidebar.repaint();
+        }
         }
         revalidate();
         repaint();
-    }
+        }
 
 
         private JLabel crearAvatar() {
-            JLabel avatar = new JLabel("👤");
-            avatar.setFont(new Font("Segoe UI", Font.PLAIN, 22));
-            avatar.setForeground(BLANCO);
-            avatar.setOpaque(true);
-            avatar.setBackground(ROJO_OSCURO);
-            avatar.setHorizontalAlignment(SwingConstants.CENTER);
-            avatar.setPreferredSize(new Dimension(36, 36));
-            avatar.setBorder(new LineBorder(BLANCO, 2, true));
-            return avatar;
+        JLabel avatar = new JLabel("👤");
+        avatar.setFont(new Font("Segoe UI", Font.PLAIN, 22));
+        avatar.setForeground(BLANCO);
+        avatar.setOpaque(true);
+        avatar.setBackground(ROJO_OSCURO);
+        avatar.setHorizontalAlignment(SwingConstants.CENTER);
+        avatar.setPreferredSize(new Dimension(36, 36));
+        avatar.setBorder(new LineBorder(BLANCO, 2, true));
+        return avatar;
         }
 
-    private JPanel crearSidebar() {
+        private JPanel crearSidebar() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBackground(BLANCO);
         panel.setPreferredSize(new Dimension(280, 0));
         panel.setBorder(new CompoundBorder(
-                new MatteBorder(0, 0, 0, 1, GRIS_BORDE),
-                new EmptyBorder(15, 15, 15, 15)
+        new MatteBorder(0, 0, 0, 1, GRIS_BORDE),
+        new EmptyBorder(15, 15, 15, 15)
         ));
 
         JButton btnVolver = new JButton("←  Volver al inicio");
@@ -223,8 +223,8 @@ public class MenuScreen extends JPanel {
         btnVolver.setForeground(Color.DARK_GRAY);
         btnVolver.setBackground(GRIS_CLARO);
         btnVolver.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(8, 10, 8, 10)
+        new LineBorder(GRIS_BORDE, 1, true),
+        new EmptyBorder(8, 10, 8, 10)
         ));
         btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
         btnVolver.setFocusPainted(false);
@@ -232,10 +232,10 @@ public class MenuScreen extends JPanel {
         btnVolver.setAlignmentX(Component.LEFT_ALIGNMENT);
         btnVolver.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
         btnVolver.addActionListener(e -> {
-            sidebar.setVisible(false);
-            mostrarPantallaInicio();
-            revalidate();
-            repaint();
+        sidebar.setVisible(false);
+        mostrarPantallaInicio();
+        revalidate();
+        repaint();
         });
         JPanel norte = new JPanel();
         norte.setLayout(new BoxLayout(norte, BoxLayout.Y_AXIS));
@@ -253,16 +253,16 @@ public class MenuScreen extends JPanel {
 
         JButton btnSalir = crearBotonInferior("Salir");
         btnSalir.addActionListener(e -> {
-            int confirmar = JOptionPane.showConfirmDialog(
-                    this,
-                    "¿Está seguro que desea salir del sistema?",
-                    "Confirmar salida",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE
-            );
-            if (confirmar == JOptionPane.YES_OPTION) {
-                System.exit(0);
-            }
+        int confirmar = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro que desea salir del sistema?",
+            "Confirmar salida",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        if (confirmar == JOptionPane.YES_OPTION) {
+        System.exit(0);
+        }
         });
         botones.add(btnSalir);
 
@@ -271,31 +271,31 @@ public class MenuScreen extends JPanel {
         panel.add(botones, BorderLayout.SOUTH);
 
         return panel;
-    }
+        }
 
-    private void mostrarSidebarCuentas() {
+        private void mostrarSidebarCuentas() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("ABRIR CUENTA", new String[]{
-                "Cuenta de Ahorros",
-                "Cuenta Corriente",
-                "Cuenta Plazo Fijo"
+        "Cuenta de Ahorros",
+        "Cuenta Corriente",
+        "Cuenta Plazo Fijo"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new AbrirCuentaPanel("ahorros", gestor)),
-                () -> mostrarEnCentro(new AbrirCuentaPanel("corriente", gestor)),
-                () -> mostrarEnCentro(new AbrirCuentaPanel("plazofijo", gestor))
+        () -> mostrarEnCentro(new AbrirCuentaPanel("ahorros", gestor)),
+        () -> mostrarEnCentro(new AbrirCuentaPanel("corriente", gestor)),
+        () -> mostrarEnCentro(new AbrirCuentaPanel("plazofijo", gestor))
         }));
         contenidoSidebar.add(Box.createVerticalStrut(18));
         contenidoSidebar.add(crearCategoria("CONSULTAS", new String[]{
-                "Ver Cuentas"
+        "Ver Cuentas"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        () -> mostrarEnCentro(new VerCuentasPanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
-    }
+        }
 
 
-    private void mostrarPantallaInicio() {
+        private void mostrarPantallaInicio() {
         panelCentral.removeAll();
         panelCentral.setLayout(new GridBagLayout());
 
@@ -303,19 +303,19 @@ public class MenuScreen extends JPanel {
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
         tarjeta.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(50, 70, 50, 70)
+        new LineBorder(GRIS_BORDE, 1, true),
+        new EmptyBorder(50, 70, 50, 70)
         ));
 
         Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
         JLabel lblLogoGrande;
         if (img != null) {
-            Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
-            lblLogoGrande = new JLabel(new ImageIcon(escalada));
+        Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
+        lblLogoGrande = new JLabel(new ImageIcon(escalada));
         } else {
-            lblLogoGrande = new JLabel("Banco Atlántida");
-            lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
-            lblLogoGrande.setForeground(new Color(210, 210, 210));
+        lblLogoGrande = new JLabel("Banco Atlántida");
+        lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblLogoGrande.setForeground(new Color(210, 210, 210));
         }
         lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
         tarjeta.add(lblLogoGrande);
@@ -323,110 +323,110 @@ public class MenuScreen extends JPanel {
         panelCentral.add(tarjeta);
         panelCentral.revalidate();
         panelCentral.repaint();
-    }
+        }
 
-    private void mostrarSidebarIntereses() {
+        private void mostrarSidebarIntereses() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("INTERESES", new String[]{
-                "Aplicar Intereses Mensuales"
+        "Aplicar Intereses Mensuales"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new InteresesPanel(gestor))
+        () -> mostrarEnCentro(new InteresesPanel(gestor))
         }));
         contenidoSidebar.add(Box.createVerticalStrut(18));
         contenidoSidebar.add(crearCategoria("CONSULTAS", new String[]{
-                "Ver Cuentas"
+        "Ver Cuentas"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        () -> mostrarEnCentro(new VerCuentasPanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
-    }
+        }
 
-    private void mostrarSidebarReportes() {
+        private void mostrarSidebarReportes() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("REPORTES", new String[]{
-                "Reporte General del Banco"
+        "Reporte General del Banco"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new ReportePanel(gestor))
+        () -> mostrarEnCentro(new ReportePanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
-    }
+        }
 
 
-    private void mostrarSidebarOperaciones() {
+        private void mostrarSidebarOperaciones() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("BUSCAR CUENTA", new String[]{
-                "Buscar Cuenta"
+        "Buscar Cuenta"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
-                    cuentaSeleccionada = c;
-                }))
+        () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
+            cuentaSeleccionada = c;
+        }))
         }));
         contenidoSidebar.add(Box.createVerticalStrut(18));
         contenidoSidebar.add(crearCategoria("OPERACIONES", new String[]{
-                "Depósito",
-                "Retiro",
-                "Transferencia"
+        "Depósito",
+        "Retiro",
+        "Transferencia"
         }, new Runnable[]{
-                () -> manejarOperacion("Depósito"),
-                () -> manejarOperacion("Retiro"),
-                () -> manejarOperacion("Transferencia")
+        () -> manejarOperacion("Depósito"),
+        () -> manejarOperacion("Retiro"),
+        () -> manejarOperacion("Transferencia")
         }));
         contenidoSidebar.add(Box.createVerticalStrut(18));
         contenidoSidebar.add(crearCategoria("CONSULTAS GENERALES", new String[]{
-                "Ver Cuentas"
+        "Ver Cuentas"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        () -> mostrarEnCentro(new VerCuentasPanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
-    }
+        }
 
-    private void mostrarSidebarEstadoCuenta() {
+        private void mostrarSidebarEstadoCuenta() {
         contenidoSidebar.removeAll();
         contenidoSidebar.add(crearCategoria("CONSULTAS", new String[]{
-                "Buscar Cuenta",
-                "Estado de Cuenta"
+        "Buscar Cuenta",
+        "Estado de Cuenta"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
-                    cuentaSeleccionada = c;
-                })),
-                () -> manejarEstadoCuenta()
+        () -> mostrarEnCentro(new BuscarCuentaPanel(gestor, c -> {
+            cuentaSeleccionada = c;
+        })),
+        () -> manejarEstadoCuenta()
         }));
         contenidoSidebar.add(Box.createVerticalStrut(18));
         contenidoSidebar.add(crearCategoria("CONSULTAS GENERALES", new String[]{
-                "Ver Cuentas"
+        "Ver Cuentas"
         }, new Runnable[]{
-                () -> mostrarEnCentro(new VerCuentasPanel(gestor))
+        () -> mostrarEnCentro(new VerCuentasPanel(gestor))
         }));
         contenidoSidebar.revalidate();
         contenidoSidebar.repaint();
-    }
+        }
 
 
-    private void manejarOperacion(String tipo) {
+        private void manejarOperacion(String tipo) {
         if (cuentaSeleccionada == null) {
-            mostrarMensajeCentro("Seleccione una cuenta primero para realizar un " + tipo);
-            return;
+        mostrarMensajeCentro("Seleccione una cuenta primero para realizar un " + tipo);
+        return;
         }
         String tipoInterno = switch (tipo) {
-            case "Depósito" -> "deposito";
-            case "Retiro" -> "retiro";
-            case "Transferencia" -> "transferencia";
-            default -> "";
+        case "Depósito" -> "deposito";
+        case "Retiro" -> "retiro";
+        case "Transferencia" -> "transferencia";
+        default -> "";
         };
         mostrarEnCentro(new OperacionPanel(tipoInterno, cuentaSeleccionada, gestor, this::mostrarEnCentro));    }
 
-    private void mostrarEnCentro(JPanel panel) {
+        private void mostrarEnCentro(JPanel panel) {
         panelCentral.removeAll();
         panelCentral.setLayout(new BorderLayout());
         panelCentral.add(panel, BorderLayout.CENTER);
         panelCentral.revalidate();
         panelCentral.repaint();
-    }
+        }
 
-    private void mostrarMensajeCentro(String mensaje) {
+        private void mostrarMensajeCentro(String mensaje) {
         JPanel p = new JPanel(new GridBagLayout());
         p.setBackground(GRIS_CLARO);
         JLabel lbl = new JLabel(mensaje);
@@ -434,10 +434,10 @@ public class MenuScreen extends JPanel {
         lbl.setForeground(GRIS_TEXTO);
         p.add(lbl);
         mostrarEnCentro(p);
-    }
+        }
 
 
-    private JPanel crearCategoria(String titulo, String[] opciones, Runnable[] acciones) {
+        private JPanel crearCategoria(String titulo, String[] opciones, Runnable[] acciones) {
         JPanel categoria = new JPanel();
         categoria.setLayout(new BoxLayout(categoria, BoxLayout.Y_AXIS));
         categoria.setOpaque(false);
@@ -452,112 +452,112 @@ public class MenuScreen extends JPanel {
         categoria.add(Box.createVerticalStrut(8));
 
         for (int i = 0; i < opciones.length; i++) {
-            final Runnable accion = acciones[i];
-            JButton btn = crearCajaOpcion(opciones[i]);
-            btn.addActionListener(e -> accion.run());
-            categoria.add(btn);
-            categoria.add(Box.createVerticalStrut(6));
+        final Runnable accion = acciones[i];
+        JButton btn = crearCajaOpcion(opciones[i]);
+        btn.addActionListener(e -> accion.run());
+        categoria.add(btn);
+        categoria.add(Box.createVerticalStrut(6));
         }
 
         return categoria;
-    }
+        }
 
 
         private JButton crearCajaOpcion(String texto) {
-            JButton caja = new JButton(texto);
-            caja.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-            caja.setForeground(Color.DARK_GRAY);
+        JButton caja = new JButton(texto);
+        caja.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        caja.setForeground(Color.DARK_GRAY);
+        caja.setBackground(GRIS_CAJA);
+        caja.setHorizontalAlignment(SwingConstants.LEFT);
+        caja.setBorder(new CompoundBorder(
+            new LineBorder(GRIS_BORDE, 1, true),
+            new EmptyBorder(10, 14, 10, 14)
+        ));
+        caja.setFocusPainted(false);
+        caja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        caja.setAlignmentX(Component.LEFT_ALIGNMENT);
+        caja.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+
+
+        caja.addChangeListener(e -> {
+        if (caja.getModel().isRollover()) {
+            caja.setBackground(new Color(230, 230, 230));
+        } else {
             caja.setBackground(GRIS_CAJA);
-            caja.setHorizontalAlignment(SwingConstants.LEFT);
-            caja.setBorder(new CompoundBorder(
-                    new LineBorder(GRIS_BORDE, 1, true),
-                    new EmptyBorder(10, 14, 10, 14)
-            ));
-            caja.setFocusPainted(false);
-            caja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            caja.setAlignmentX(Component.LEFT_ALIGNMENT);
-            caja.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        }
+        });
 
-
-            caja.addChangeListener(e -> {
-                if (caja.getModel().isRollover()) {
-                    caja.setBackground(new Color(230, 230, 230));
-                } else {
-                    caja.setBackground(GRIS_CAJA);
-                }
-            });
-
-            return caja;
+        return caja;
         }
 
         private JButton crearBotonInferior(String texto) {
-            JButton btn = new JButton(texto);
-            btn.setFont(new Font("Segoe UI", Font.BOLD, 11));
-            btn.setForeground(ROJO_BA);
-            btn.setBackground(BLANCO);
-            btn.setBorder(new LineBorder(ROJO_BA, 1, true));
-            btn.setFocusPainted(false);
-            btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            return btn;
+        JButton btn = new JButton(texto);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btn.setForeground(ROJO_BA);
+        btn.setBackground(BLANCO);
+        btn.setBorder(new LineBorder(ROJO_BA, 1, true));
+        btn.setFocusPainted(false);
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        return btn;
         }
 
 
         private JPanel crearPanelCentral() {
-            JPanel centro = new JPanel();
-            centro.setLayout(new GridBagLayout());
-            centro.setBackground(GRIS_CLARO);
+        JPanel centro = new JPanel();
+        centro.setLayout(new GridBagLayout());
+        centro.setBackground(GRIS_CLARO);
 
-            JPanel tarjeta = new JPanel();
-            tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
-            tarjeta.setBackground(BLANCO);
-            tarjeta.setBorder(new CompoundBorder(
-                    new LineBorder(GRIS_BORDE, 1, true),
-                    new EmptyBorder(50, 70, 50, 70)
-            ));
+        JPanel tarjeta = new JPanel();
+        tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
+        tarjeta.setBackground(BLANCO);
+        tarjeta.setBorder(new CompoundBorder(
+            new LineBorder(GRIS_BORDE, 1, true),
+            new EmptyBorder(50, 70, 50, 70)
+        ));
 
-            Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
-            JLabel lblLogoGrande;
-            if (img != null) {
-                Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
-                lblLogoGrande = new JLabel(new ImageIcon(escalada));
-            } else {
-                lblLogoGrande = new JLabel("Banco Atlántida");
-                lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
-                lblLogoGrande.setForeground(new Color(210, 210, 210));
-            }
-            lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
-            tarjeta.add(lblLogoGrande);
+        Image img = cargarImagen("/ASSETS/LOGOBLANCO.png");
+        JLabel lblLogoGrande;
+        if (img != null) {
+        Image escalada = img.getScaledInstance(220, 75, Image.SCALE_SMOOTH);
+        lblLogoGrande = new JLabel(new ImageIcon(escalada));
+        } else {
+        lblLogoGrande = new JLabel("Banco Atlántida");
+        lblLogoGrande.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblLogoGrande.setForeground(new Color(210, 210, 210));
+        }
+        lblLogoGrande.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tarjeta.add(lblLogoGrande);
 
-            centro.add(tarjeta);
-            return centro;
+        centro.add(tarjeta);
+        return centro;
         }
 
 
         private Image cargarImagen(String ruta) {
-            try {
-                URL url = getClass().getResource(ruta);
-                if (url != null) return new ImageIcon(url).getImage();
-            } catch (Exception e) {
-                System.err.println("No se pudo cargar imagen: " + ruta);
-            }
-            return null;
+        try {
+        URL url = getClass().getResource(ruta);
+        if (url != null) return new ImageIcon(url).getImage();
+        } catch (Exception e) {
+        System.err.println("No se pudo cargar imagen: " + ruta);
+        }
+        return null;
         }
 
-    private void manejarEstadoCuenta() {
+        private void manejarEstadoCuenta() {
         if (cuentaSeleccionada == null) {
-            mostrarMensajeCentro("Seleccione una cuenta primero para ver el estado de cuenta");
+        mostrarMensajeCentro("Seleccione una cuenta primero para ver el estado de cuenta");
         } else {
-            String historial = gestor.leerHistorialCuenta(cuentaSeleccionada.getNumeroCuenta());
-            JPanel p = new JPanel(new BorderLayout());
-            p.setBackground(GRIS_CLARO);
-            p.setBorder(new EmptyBorder(20, 20, 20, 20));
-            JTextArea area = new JTextArea("Estado de cuenta: " + cuentaSeleccionada.getNumeroCuenta() + "\n\n" + historial);
-            area.setEditable(false);
-            area.setFont(new Font("Consolas", Font.PLAIN, 13));
-            p.add(new JScrollPane(area), BorderLayout.CENTER);
-            mostrarEnCentro(p);
+        String historial = gestor.leerHistorialCuenta(cuentaSeleccionada.getNumeroCuenta());
+        JPanel p = new JPanel(new BorderLayout());
+        p.setBackground(GRIS_CLARO);
+        p.setBorder(new EmptyBorder(20, 20, 20, 20));
+        JTextArea area = new JTextArea("Estado de cuenta: " + cuentaSeleccionada.getNumeroCuenta() + "\n\n" + historial);
+        area.setEditable(false);
+        area.setFont(new Font("Consolas", Font.PLAIN, 13));
+        p.add(new JScrollPane(area), BorderLayout.CENTER);
+        mostrarEnCentro(p);
         }
-    }
+        }
 
 
-    }
+        }

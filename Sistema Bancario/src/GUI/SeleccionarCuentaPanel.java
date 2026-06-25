@@ -1,39 +1,39 @@
-package GUI;
+        package GUI;
 
-import sistema.bancario.CuentaBancaria;
-import sistema.bancario.GestorBancario;
+        import sistema.bancario.CuentaBancaria;
+        import sistema.bancario.GestorBancario;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.util.function.Consumer;
+        import javax.swing.*;
+        import javax.swing.border.*;
+        import java.awt.*;
+        import java.util.function.Consumer;
 
 
-public class SeleccionarCuentaPanel extends JPanel {
+        public class SeleccionarCuentaPanel extends JPanel {
 
-    private static final Color ROJO_BA    = new Color(180, 20, 20);
-    private static final Color GRIS_CLARO = new Color(248, 248, 248);
-    private static final Color GRIS_CAJA  = new Color(240, 240, 240);
-    private static final Color GRIS_BORDE = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO = new Color(110, 110, 110);
-    private static final Color BLANCO     = Color.WHITE;
+        private static final Color ROJO_BA    = new Color(180, 20, 20);
+        private static final Color GRIS_CLARO = new Color(248, 248, 248);
+        private static final Color GRIS_CAJA  = new Color(240, 240, 240);
+        private static final Color GRIS_BORDE = new Color(225, 225, 225);
+        private static final Color GRIS_TEXTO = new Color(110, 110, 110);
+        private static final Color BLANCO     = Color.WHITE;
 
-    private final GestorBancario gestor;
-    private final Consumer<CuentaBancaria> onSeleccionar;
+        private final GestorBancario gestor;
+        private final Consumer<CuentaBancaria> onSeleccionar;
 
-    private JButton btnAhorros, btnCorriente, btnPlazoFijo;
-    private JPanel panelLista;
-    private String tipoActivo = "AHO";
+        private JButton btnAhorros, btnCorriente, btnPlazoFijo;
+        private JPanel panelLista;
+        private String tipoActivo = "AHO";
 
-    public SeleccionarCuentaPanel(GestorBancario gestor, Consumer<CuentaBancaria> onSeleccionar) {
+        public SeleccionarCuentaPanel(GestorBancario gestor, Consumer<CuentaBancaria> onSeleccionar) {
         this.gestor = gestor;
         this.onSeleccionar = onSeleccionar;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
-    }
+        }
 
-    private void construir() {
+        private void construir() {
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
@@ -90,9 +90,9 @@ public class SeleccionarCuentaPanel extends JPanel {
         add(tarjeta);
 
         seleccionarTipo("AHO", btnAhorros);
-    }
+        }
 
-    private JButton crearBotonTipo(String texto) {
+        private JButton crearBotonTipo(String texto) {
         JButton btn = new JButton(texto);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btn.setForeground(ROJO_BA);
@@ -101,23 +101,23 @@ public class SeleccionarCuentaPanel extends JPanel {
         btn.setFocusPainted(false);
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         return btn;
-    }
+        }
 
-    private void marcarBotonActivo(JButton activo) {
+        private void marcarBotonActivo(JButton activo) {
         for (JButton btn : new JButton[]{btnAhorros, btnCorriente, btnPlazoFijo}) {
             boolean esElActivo = (btn == activo);
             btn.setBackground(esElActivo ? ROJO_BA : BLANCO);
             btn.setForeground(esElActivo ? BLANCO : ROJO_BA);
         }
-    }
+        }
 
-    private void seleccionarTipo(String prefijo, JButton botonClickeado) {
+        private void seleccionarTipo(String prefijo, JButton botonClickeado) {
         tipoActivo = prefijo;
         marcarBotonActivo(botonClickeado);
         cargarListado();
-    }
+        }
 
-    private void cargarListado() {
+        private void cargarListado() {
         panelLista.removeAll();
 
         String listado = gestor.listarCuentasPorTipo(tipoActivo);
@@ -139,9 +139,9 @@ public class SeleccionarCuentaPanel extends JPanel {
 
         panelLista.revalidate();
         panelLista.repaint();
-    }
+        }
 
-    private JButton crearFilaCuenta(String lineaTexto) {
+        private JButton crearFilaCuenta(String lineaTexto) {
         JButton fila = new JButton(lineaTexto);
         fila.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         fila.setForeground(Color.DARK_GRAY);
@@ -173,5 +173,5 @@ public class SeleccionarCuentaPanel extends JPanel {
         });
 
         return fila;
-    }
-}
+        }
+        }

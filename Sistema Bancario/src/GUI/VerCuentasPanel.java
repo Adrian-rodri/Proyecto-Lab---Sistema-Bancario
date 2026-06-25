@@ -1,34 +1,34 @@
-package GUI;
+        package GUI;
 
-import sistema.bancario.GestorBancario;
+        import sistema.bancario.GestorBancario;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+        import javax.swing.*;
+        import javax.swing.border.*;
+        import java.awt.*;
 
 
-public class VerCuentasPanel extends JPanel {
+        public class VerCuentasPanel extends JPanel {
 
-    private static final Color ROJO_BA     = new Color(180, 20, 20);
-    private static final Color ROJO_OSCURO = new Color(140, 12, 12);
-    private static final Color GRIS_CLARO  = new Color(248, 248, 248);
-    private static final Color GRIS_BORDE  = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO  = new Color(110, 110, 110);
-    private static final Color BLANCO      = Color.WHITE;
+        private static final Color ROJO_BA     = new Color(180, 20, 20);
+        private static final Color ROJO_OSCURO = new Color(140, 12, 12);
+        private static final Color GRIS_CLARO  = new Color(248, 248, 248);
+        private static final Color GRIS_BORDE  = new Color(225, 225, 225);
+        private static final Color GRIS_TEXTO  = new Color(110, 110, 110);
+        private static final Color BLANCO      = Color.WHITE;
 
-    private final GestorBancario gestor;
-    private JTextArea areaResultado;
-    private JButton btnAhorros, btnCorriente, btnPlazoFijo;
-    private String tipoActivo = "AHO";
+        private final GestorBancario gestor;
+        private JTextArea areaResultado;
+        private JButton btnAhorros, btnCorriente, btnPlazoFijo;
+        private String tipoActivo = "AHO";
 
-    public VerCuentasPanel(GestorBancario gestor) {
+        public VerCuentasPanel(GestorBancario gestor) {
         this.gestor = gestor;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
-    }
+        }
 
-    private void construir() {
+        private void construir() {
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
@@ -87,9 +87,9 @@ public class VerCuentasPanel extends JPanel {
         add(tarjeta);
 
         seleccionarTipo("AHO", btnAhorros);
-    }
+        }
 
-    private JButton crearBotonTipo(String texto) {
+        private JButton crearBotonTipo(String texto) {
         JButton btn = new JButton(texto);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
         btn.setForeground(ROJO_BA);
@@ -98,23 +98,23 @@ public class VerCuentasPanel extends JPanel {
         btn.setFocusPainted(false);
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         return btn;
-    }
+        }
 
-    private void marcarBotonActivo(JButton activo) {
+        private void marcarBotonActivo(JButton activo) {
         for (JButton btn : new JButton[]{btnAhorros, btnCorriente, btnPlazoFijo}) {
             boolean esElActivo = (btn == activo);
             btn.setBackground(esElActivo ? ROJO_BA : BLANCO);
             btn.setForeground(esElActivo ? BLANCO : ROJO_BA);
         }
-    }
+        }
 
-    private void seleccionarTipo(String prefijo, JButton botonClickeado) {
+        private void seleccionarTipo(String prefijo, JButton botonClickeado) {
         tipoActivo = prefijo;
         marcarBotonActivo(botonClickeado);
         cargarListado();
-    }
+        }
 
-    private void cargarListado() {
+        private void cargarListado() {
         String listado = gestor.listarCuentasPorTipo(tipoActivo);
 
         if (listado == null || listado.isBlank()) {
@@ -122,5 +122,5 @@ public class VerCuentasPanel extends JPanel {
         } else {
             areaResultado.setText(listado);
         }
-    }
-}
+        }
+        }

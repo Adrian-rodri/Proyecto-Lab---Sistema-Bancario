@@ -1,36 +1,36 @@
-package GUI;
+        package GUI;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+        import javax.swing.*;
+        import javax.swing.border.*;
+        import java.awt.*;
 
 
-public class InteresesPanel extends JPanel {
+        public class InteresesPanel extends JPanel {
 
-    private static final Color ROJO_BA    = new Color(180, 20, 20);
-    private static final Color GRIS_CLARO = new Color(248, 248, 248);
-    private static final Color GRIS_BORDE = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO = new Color(110, 110, 110);
-    private static final Color BLANCO     = Color.WHITE;
-    private static final Color VERDE      = new Color(34, 139, 34);
+        private static final Color ROJO_BA    = new Color(180, 20, 20);
+        private static final Color GRIS_CLARO = new Color(248, 248, 248);
+        private static final Color GRIS_BORDE = new Color(225, 225, 225);
+        private static final Color GRIS_TEXTO = new Color(110, 110, 110);
+        private static final Color BLANCO     = Color.WHITE;
+        private static final Color VERDE      = new Color(34, 139, 34);
 
-    private JPanel panelResultado;
-    private final sistema.bancario.GestorBancario gestor;
+        private JPanel panelResultado;
+        private final sistema.bancario.GestorBancario gestor;
 
-    public InteresesPanel(sistema.bancario.GestorBancario gestor) {
+        public InteresesPanel(sistema.bancario.GestorBancario gestor) {
         this.gestor = gestor;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
-    }
+        }
 
-    private void construir() {
+        private void construir() {
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
         tarjeta.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(35, 50, 35, 50)
+            new LineBorder(GRIS_BORDE, 1, true),
+            new EmptyBorder(35, 50, 35, 50)
         ));
         tarjeta.setPreferredSize(new Dimension(480, 320));
 
@@ -49,7 +49,7 @@ public class InteresesPanel extends JPanel {
         tarjeta.add(Box.createVerticalStrut(20));
 
         JLabel lblInfo = new JLabel("<html>Esta acción recorrerá todas las cuentas del<br>"
-                + "sistema y acreditará el interés mensual<br>correspondiente a cada una.</html>");
+            + "sistema y acreditará el interés mensual<br>correspondiente a cada una.</html>");
         lblInfo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lblInfo.setForeground(GRIS_TEXTO);
         lblInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -75,9 +75,9 @@ public class InteresesPanel extends JPanel {
         tarjeta.add(panelResultado);
 
         add(tarjeta);
-    }
+        }
 
-    private void accionAplicar() {
+        private void accionAplicar() {
         gestor.aplicarInteresesMensuales();
         panelResultado.removeAll();
         JLabel lbl = new JLabel("APLICADOS");
@@ -88,5 +88,5 @@ public class InteresesPanel extends JPanel {
 
         panelResultado.revalidate();
         panelResultado.repaint();
-    }
-}
+        }
+        }

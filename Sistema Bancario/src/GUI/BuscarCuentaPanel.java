@@ -1,44 +1,44 @@
-package GUI;
+        package GUI;
 
-import sistema.bancario.CuentaBancaria;
-import sistema.bancario.GestorBancario;
+        import sistema.bancario.CuentaBancaria;
+        import sistema.bancario.GestorBancario;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.util.function.Consumer;
-import java.util.ArrayList;
+        import javax.swing.*;
+        import javax.swing.border.*;
+        import java.awt.*;
+        import java.util.function.Consumer;
+        import java.util.ArrayList;
 
-public class BuscarCuentaPanel extends JPanel {
+        public class BuscarCuentaPanel extends JPanel {
 
-    private static final Color ROJO_BA    = new Color(180, 20, 20);
-    private static final Color GRIS_CLARO = new Color(248, 248, 248);
-    private static final Color GRIS_BORDE = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO = new Color(110, 110, 110);
-    private static final Color BLANCO     = Color.WHITE;
-    private static final Color VERDE      = new Color(34, 139, 34);
+        private static final Color ROJO_BA    = new Color(180, 20, 20);
+        private static final Color GRIS_CLARO = new Color(248, 248, 248);
+        private static final Color GRIS_BORDE = new Color(225, 225, 225);
+        private static final Color GRIS_TEXTO = new Color(110, 110, 110);
+        private static final Color BLANCO     = Color.WHITE;
+        private static final Color VERDE      = new Color(34, 139, 34);
 
-    private JTextField txtNumero;
-    private JPanel panelResultado;
-    private JComboBox<String> comboCriterio;
+        private JTextField txtNumero;
+        private JPanel panelResultado;
+        private JComboBox<String> comboCriterio;
 
-    private final Consumer<CuentaBancaria> onCuentaSeleccionada;
-    private final sistema.bancario.GestorBancario gestor;
-    public BuscarCuentaPanel(GestorBancario gestor, Consumer<CuentaBancaria> onCuentaSeleccionada) {
+        private final Consumer<CuentaBancaria> onCuentaSeleccionada;
+        private final sistema.bancario.GestorBancario gestor;
+        public BuscarCuentaPanel(GestorBancario gestor, Consumer<CuentaBancaria> onCuentaSeleccionada) {
         this.onCuentaSeleccionada = onCuentaSeleccionada;
         this.gestor = gestor;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         construir();
-    }
+        }
 
-    private void construir() {
+        private void construir() {
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
         tarjeta.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(35, 50, 35, 50)
+        new LineBorder(GRIS_BORDE, 1, true),
+        new EmptyBorder(35, 50, 35, 50)
         ));
         tarjeta.setPreferredSize(new Dimension(520, 420));
 
@@ -78,8 +78,8 @@ public class BuscarCuentaPanel extends JPanel {
         txtNumero = new JTextField();
         txtNumero.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         txtNumero.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(6, 10, 6, 10)
+        new LineBorder(GRIS_BORDE, 1, true),
+        new EmptyBorder(6, 10, 6, 10)
         ));
         filaBusqueda.add(txtNumero);
         filaBusqueda.add(Box.createHorizontalStrut(10));
@@ -113,61 +113,61 @@ public class BuscarCuentaPanel extends JPanel {
         tarjeta.add(scrollResultado);
 
         add(tarjeta);
-    }
+        }
 
-    private void accionBuscar() {
+        private void accionBuscar() {
         panelResultado.removeAll();
 
         String valor = txtNumero.getText().trim();
         if (valor.isEmpty()) {
-            mostrarMensaje("Ingrese un valor para buscar.", Color.RED);
-            panelResultado.revalidate();
-            panelResultado.repaint();
-            return;
+        mostrarMensaje("Ingrese un valor para buscar.", Color.RED);
+        panelResultado.revalidate();
+        panelResultado.repaint();
+        return;
         }
 
         String criterio = (String) comboCriterio.getSelectedItem();
 
         if ("Número de cuenta".equals(criterio)) {
-            CuentaBancaria cuenta = gestor.buscarPorNumero(valor);
-            if (cuenta == null) {
-                mostrarMensaje("No se encontró ninguna cuenta con ese número.", GRIS_TEXTO);
-            } else {
-                mostrarResultado(cuenta);
-            }
+        CuentaBancaria cuenta = gestor.buscarPorNumero(valor);
+        if (cuenta == null) {
+        mostrarMensaje("No se encontró ninguna cuenta con ese número.", GRIS_TEXTO);
+        } else {
+        mostrarResultado(cuenta);
+        }
 
         } else if ("DPI".equals(criterio)) {
-            ArrayList<CuentaBancaria> resultados = gestor.buscarPorDPI(valor);
-            if (resultados == null || resultados.isEmpty()) {
-                mostrarMensaje("No se encontraron cuentas con ese DPI.", GRIS_TEXTO);
-            } else {
-                for (CuentaBancaria c : resultados) {
-                    mostrarResultado(c);
-                }
-            }
+        ArrayList<CuentaBancaria> resultados = gestor.buscarPorDPI(valor);
+        if (resultados == null || resultados.isEmpty()) {
+        mostrarMensaje("No se encontraron cuentas con ese DPI.", GRIS_TEXTO);
+        } else {
+        for (CuentaBancaria c : resultados) {
+            mostrarResultado(c);
+        }
+        }
 
         } else {
-            ArrayList<CuentaBancaria> resultados = gestor.buscarPorTitular(valor);
-            if (resultados == null || resultados.isEmpty()) {
-                mostrarMensaje("No se encontraron cuentas con ese nombre.", GRIS_TEXTO);
-            } else {
-                for (CuentaBancaria c : resultados) {
-                    mostrarResultado(c);
-                }
-            }
+        ArrayList<CuentaBancaria> resultados = gestor.buscarPorTitular(valor);
+        if (resultados == null || resultados.isEmpty()) {
+        mostrarMensaje("No se encontraron cuentas con ese nombre.", GRIS_TEXTO);
+        } else {
+        for (CuentaBancaria c : resultados) {
+            mostrarResultado(c);
+        }
+        }
         }
 
         panelResultado.revalidate();
         panelResultado.repaint();
-    }
+        }
 
-    private void mostrarResultado(CuentaBancaria cuenta) {
+        private void mostrarResultado(CuentaBancaria cuenta) {
         JPanel caja = new JPanel();
         caja.setLayout(new BoxLayout(caja, BoxLayout.Y_AXIS));
         caja.setBackground(new Color(245, 255, 245));
         caja.setBorder(new CompoundBorder(
-                new LineBorder(new Color(180, 220, 180), 1, true),
-                new EmptyBorder(16, 20, 16, 20)
+        new LineBorder(new Color(180, 220, 180), 1, true),
+        new EmptyBorder(16, 20, 16, 20)
         ));
         caja.setAlignmentX(Component.LEFT_ALIGNMENT);
         caja.setMaximumSize(new Dimension(Integer.MAX_VALUE, 9999));
@@ -189,17 +189,17 @@ public class BuscarCuentaPanel extends JPanel {
         btnSeleccionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSeleccionar.setAlignmentX(Component.LEFT_ALIGNMENT);
         btnSeleccionar.addActionListener(e -> {
-            onCuentaSeleccionada.accept(cuenta);
-            JOptionPane.showMessageDialog(this,
-                    "Cuenta " + cuenta.getNumeroCuenta() + " seleccionada.",
-                    "Cuenta seleccionada", JOptionPane.INFORMATION_MESSAGE);
+        onCuentaSeleccionada.accept(cuenta);
+        JOptionPane.showMessageDialog(this,
+            "Cuenta " + cuenta.getNumeroCuenta() + " seleccionada.",
+            "Cuenta seleccionada", JOptionPane.INFORMATION_MESSAGE);
         });
         caja.add(btnSeleccionar);
 
         panelResultado.add(caja);
         panelResultado.add(Box.createVerticalStrut(10));
-    }
-    private void agregarFila(JPanel panel, String etiqueta, String valor) {
+        }
+        private void agregarFila(JPanel panel, String etiqueta, String valor) {
         JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 2));
         fila.setOpaque(false);
         fila.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -215,9 +215,9 @@ public class BuscarCuentaPanel extends JPanel {
         fila.add(lblEtiqueta);
         fila.add(lblValor);
         panel.add(fila);
-    }
+        }
 
-    private void mostrarMensaje(String msg, Color color) {
+        private void mostrarMensaje(String msg, Color color) {
         JLabel lbl = new JLabel(msg);
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lbl.setForeground(color);
@@ -225,5 +225,5 @@ public class BuscarCuentaPanel extends JPanel {
         panelResultado.add(lbl);
         panelResultado.revalidate();
         panelResultado.repaint();
-    }
-}
+        }
+        }

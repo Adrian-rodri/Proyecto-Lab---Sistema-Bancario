@@ -1,20 +1,20 @@
-package GUI;
+        package GUI;
 
-import sistema.bancario.GestorBancario;
+        import sistema.bancario.GestorBancario;
 
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+        import java.awt.CardLayout;
+        import java.awt.Dimension;
+        import javax.swing.JFrame;
+        import javax.swing.JPanel;
 
-public class MainFrame extends JFrame {
-    private static JPanel paneles;
-    private static CardLayout cardLayout;
+        public class MainFrame extends JFrame {
+        private static JPanel paneles;
+        private static CardLayout cardLayout;
 
-    private static GestorBancario gestor;
-    private static MainFrame instancia;
+        private static GestorBancario gestor;
+        private static MainFrame instancia;
 
-    public MainFrame() {
+        public MainFrame() {
         instancia = this;
         setTitle("Banco Atlantida - Inciar Sesion");
         setSize(900, 620);
@@ -30,14 +30,14 @@ public class MainFrame extends JFrame {
         paneles.add(new LoginScreen(), "Inicio");
         add(paneles);
         this.setVisible(true);
-    }
+        }
 
-    public static void cambiarPantalla(JPanel newPanel, String name) {
+        public static void cambiarPantalla(JPanel newPanel, String name) {
         paneles.add(newPanel, name);
         cardLayout.show(paneles, name);
-    }
+        }
 
-    public static GestorBancario getGestor() {
+        public static GestorBancario getGestor() {
         return gestor;
-    }
-}
+        }
+        }

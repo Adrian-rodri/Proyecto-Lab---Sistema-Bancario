@@ -1,60 +1,60 @@
-package GUI;
+        package GUI;
 
-import sistema.bancario.CuentaAhorros;
-import sistema.bancario.CuentaCorriente;
-import sistema.bancario.CuentaPlazoFijo;
-import sistema.bancario.GestorBancario;
+        import sistema.bancario.CuentaAhorros;
+        import sistema.bancario.CuentaCorriente;
+        import sistema.bancario.CuentaPlazoFijo;
+        import sistema.bancario.GestorBancario;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+        import javax.swing.*;
+        import javax.swing.border.*;
+        import java.awt.*;
 
-public class AbrirCuentaPanel extends JPanel {
+        public class AbrirCuentaPanel extends JPanel {
 
-    private static final Color ROJO_BA     = new Color(180, 20, 20);
-    private static final Color GRIS_CLARO  = new Color(248, 248, 248);
-    private static final Color GRIS_BORDE  = new Color(225, 225, 225);
-    private static final Color GRIS_TEXTO  = new Color(110, 110, 110);
-    private static final Color BLANCO      = Color.WHITE;
-    private final String tipo;
-    private final sistema.bancario.GestorBancario gestor;
+        private static final Color ROJO_BA     = new Color(180, 20, 20);
+        private static final Color GRIS_CLARO  = new Color(248, 248, 248);
+        private static final Color GRIS_BORDE  = new Color(225, 225, 225);
+        private static final Color GRIS_TEXTO  = new Color(110, 110, 110);
+        private static final Color BLANCO      = Color.WHITE;
+        private final String tipo;
+        private final sistema.bancario.GestorBancario gestor;
 
-    private JTextField  txtTitular, txtDpi, txtSaldo;
+        private JTextField  txtTitular, txtDpi, txtSaldo;
 
-    private JTextField txtTasa;
+        private JTextField txtTasa;
 
-    private JTextField txtSobregiro;
+        private JTextField txtSobregiro;
 
-    private JTextField txtPlazo, txtFechaVencimiento, txtPenalizacion;
+        private JTextField txtPlazo, txtFechaVencimiento, txtPenalizacion;
 
-    public AbrirCuentaPanel(String tipo, GestorBancario gestor) {
+        public AbrirCuentaPanel(String tipo, GestorBancario gestor) {
         this.gestor = gestor;
         this.tipo = tipo;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
         mostrarFormulario();
-    }
+        }
 
-    private void mostrarFormulario() {
+        private void mostrarFormulario() {
         JPanel tarjeta = new JPanel();
         tarjeta.setLayout(new BoxLayout(tarjeta, BoxLayout.Y_AXIS));
         tarjeta.setBackground(BLANCO);
         tarjeta.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(35, 50, 35, 50)
+        new LineBorder(GRIS_BORDE, 1, true),
+        new EmptyBorder(35, 50, 35, 50)
         ));
         tarjeta.setMaximumSize(new Dimension(520, 9999));
 
         switch (tipo) {
-            case "ahorros"    -> construirFormAhorros(tarjeta);
-            case "corriente"  -> construirFormCorriente(tarjeta);
-            case "plazofijo"  -> construirFormPlazoFijo(tarjeta);
+        case "ahorros"    -> construirFormAhorros(tarjeta);
+        case "corriente"  -> construirFormCorriente(tarjeta);
+        case "plazofijo"  -> construirFormPlazoFijo(tarjeta);
         }
 
         add(tarjeta);
-    }
+        }
 
-    public void construirFormAhorros(JPanel tarjeta) {
+        public void construirFormAhorros(JPanel tarjeta) {
         agregarTitulo(tarjeta, "Abrir Cuenta de Ahorros");
 
         txtTitular       = agregarCampo(tarjeta, "Titular");
@@ -64,9 +64,9 @@ public class AbrirCuentaPanel extends JPanel {
 
         tarjeta.add(Box.createVerticalStrut(24));
         tarjeta.add(crearBotonAbrir(() -> accionAbrirAhorros()));
-    }
+        }
 
-    public void construirFormCorriente(JPanel tarjeta) {
+        public void construirFormCorriente(JPanel tarjeta) {
         agregarTitulo(tarjeta, "Abrir Cuenta Corriente");
 
         txtTitular       = agregarCampo(tarjeta, "Titular");
@@ -76,9 +76,9 @@ public class AbrirCuentaPanel extends JPanel {
 
         tarjeta.add(Box.createVerticalStrut(24));
         tarjeta.add(crearBotonAbrir(() -> accionAbrirCorriente()));
-    }
+        }
 
-    public void construirFormPlazoFijo(JPanel tarjeta) {
+        public void construirFormPlazoFijo(JPanel tarjeta) {
         agregarTitulo(tarjeta, "Abrir Cuenta a Plazo Fijo");
 
         txtTitular          = agregarCampo(tarjeta, "Titular");
@@ -91,54 +91,58 @@ public class AbrirCuentaPanel extends JPanel {
 
         tarjeta.add(Box.createVerticalStrut(24));
         tarjeta.add(crearBotonAbrir(() -> accionAbrirPlazoFijo()));
-    }
-
-    private void accionAbrirAhorros() {
-        try {
-            String titular       = txtTitular.getText().trim();
-            String dpi           = txtDpi.getText().trim();
-            double saldo         = Double.parseDouble(txtSaldo.getText().trim());
-            double tasa          = Double.parseDouble(txtTasa.getText().trim());
-            gestor.agregarCuentaAhorros(titular, dpi, saldo, tasa);
-            mostrarExito("Cuenta de Ahorros creada correctamente.");
-            limpiarCampos();
-        } catch (NumberFormatException e) {
-            mostrarError("Saldo y tasa deben ser valores numéricos.");
         }
-    }
 
-    private void accionAbrirCorriente() {
+        
+        private void accionAbrirAhorros() {
         try {
-            String titular       = txtTitular.getText().trim();
-            String dpi           = txtDpi.getText().trim();
-            double saldo         = Double.parseDouble(txtSaldo.getText().trim());
-            double sobregiro     = Double.parseDouble(txtSobregiro.getText().trim());
-            gestor.agregarCuentaCorriente(titular, dpi, saldo, sobregiro);
-            mostrarExito("Cuenta Corriente creada correctamente.");
-            limpiarCampos();
+        String titular       = txtTitular.getText().trim();
+        String dpi           = txtDpi.getText().trim();
+        double saldo         = Double.parseDouble(txtSaldo.getText().trim());
+        double tasa          = Double.parseDouble(txtTasa.getText().trim());
+        gestor.agregarCuentaAhorros(titular, dpi, saldo, tasa);
+        mostrarExito("Cuenta de Ahorros creada correctamente.");
+        limpiarCampos();
         } catch (NumberFormatException e) {
-            mostrarError("Saldo y límite de sobregiro deben ser valores numéricos.");
+        mostrarError("Saldo y tasa deben ser valores numéricos.");
         }
-    }
+        }
 
-    private void accionAbrirPlazoFijo() {
+        
+        private void accionAbrirCorriente() {
         try {
-            String titular          = txtTitular.getText().trim();
-            String dpi              = txtDpi.getText().trim();
-            double saldo            = Double.parseDouble(txtSaldo.getText().trim());
-            double tasa             = Double.parseDouble(txtTasa.getText().trim());
-            int    plazo            = Integer.parseInt(txtPlazo.getText().trim());
-            String fechaVencimiento = txtFechaVencimiento.getText().trim();
-            double penalizacion     = Double.parseDouble(txtPenalizacion.getText().trim());
-            gestor.agregarCuentaPlazoFijo(titular, dpi, saldo, tasa, plazo, fechaVencimiento, penalizacion);
-            mostrarExito("Cuenta a Plazo Fijo creada correctamente.");
-            limpiarCampos();
+        String titular       = txtTitular.getText().trim();
+        String dpi           = txtDpi.getText().trim();
+        double saldo         = Double.parseDouble(txtSaldo.getText().trim());
+        double sobregiro     = Double.parseDouble(txtSobregiro.getText().trim());
+        gestor.agregarCuentaCorriente(titular, dpi, saldo, sobregiro);
+        mostrarExito("Cuenta Corriente creada correctamente.");
+        limpiarCampos();
         } catch (NumberFormatException e) {
-            mostrarError("Revisa que los campos numéricos tengan el formato correcto.");
+        mostrarError("Saldo y límite de sobregiro deben ser valores numéricos.");
         }
-    }
+        }
 
-    private void agregarTitulo(JPanel panel, String texto) {
+        
+        private void accionAbrirPlazoFijo() {
+        try {
+        String titular          = txtTitular.getText().trim();
+        String dpi              = txtDpi.getText().trim();
+        double saldo            = Double.parseDouble(txtSaldo.getText().trim());
+        double tasa             = Double.parseDouble(txtTasa.getText().trim());
+        int    plazo            = Integer.parseInt(txtPlazo.getText().trim());
+        String fechaVencimiento = txtFechaVencimiento.getText().trim();
+        double penalizacion     = Double.parseDouble(txtPenalizacion.getText().trim());
+        gestor.agregarCuentaPlazoFijo(titular, dpi, saldo, tasa, plazo, fechaVencimiento, penalizacion);
+        mostrarExito("Cuenta a Plazo Fijo creada correctamente.");
+        limpiarCampos();
+        } catch (NumberFormatException e) {
+        mostrarError("Revisa que los campos numéricos tengan el formato correcto.");
+        }
+        }
+
+        
+        private void agregarTitulo(JPanel panel, String texto) {
         JLabel lbl = new JLabel(texto);
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lbl.setForeground(ROJO_BA);
@@ -152,9 +156,10 @@ public class AbrirCuentaPanel extends JPanel {
         sep.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.add(sep);
         panel.add(Box.createVerticalStrut(20));
-    }
+        }
 
-    private JTextField agregarCampo(JPanel panel, String etiqueta) {
+        
+        private JTextField agregarCampo(JPanel panel, String etiqueta) {
         JLabel lbl = new JLabel(etiqueta);
         lbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lbl.setForeground(GRIS_TEXTO);
@@ -165,8 +170,8 @@ public class AbrirCuentaPanel extends JPanel {
         JTextField campo = new JTextField();
         campo.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         campo.setBorder(new CompoundBorder(
-                new LineBorder(GRIS_BORDE, 1, true),
-                new EmptyBorder(6, 10, 6, 10)
+        new LineBorder(GRIS_BORDE, 1, true),
+        new EmptyBorder(6, 10, 6, 10)
         ));
         campo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
         campo.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -174,9 +179,9 @@ public class AbrirCuentaPanel extends JPanel {
         panel.add(Box.createVerticalStrut(14));
 
         return campo;
-    }
+        }
 
-    private JButton crearBotonAbrir(Runnable accion) {
+        private JButton crearBotonAbrir(Runnable accion) {
         JButton btn = new JButton("Abrir Cuenta");
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btn.setForeground(BLANCO);
@@ -187,19 +192,19 @@ public class AbrirCuentaPanel extends JPanel {
         btn.setAlignmentX(Component.LEFT_ALIGNMENT);
         btn.addActionListener(e -> accion.run());
         return btn;
-    }
-
-    private void mostrarExito(String msg) {
-        JOptionPane.showMessageDialog(this, msg, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void mostrarError(String msg) {
-        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void limpiarCampos() {
-        for (Component c : getComponents()) {
-            if (c instanceof JTextField) ((JTextField) c).setText("");
         }
-    }
-}
+
+        private void mostrarExito(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        private void mostrarError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        private void limpiarCampos() {
+        for (Component c : getComponents()) {
+        if (c instanceof JTextField) ((JTextField) c).setText("");
+        }
+        }
+        }
