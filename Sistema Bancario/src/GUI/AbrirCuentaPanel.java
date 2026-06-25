@@ -3,6 +3,7 @@ package GUI;
 import sistema.bancario.CuentaAhorros;
 import sistema.bancario.CuentaCorriente;
 import sistema.bancario.CuentaPlazoFijo;
+import sistema.bancario.GestorBancario;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -15,7 +16,7 @@ public class AbrirCuentaPanel extends JPanel {
     private static final Color GRIS_BORDE  = new Color(225, 225, 225);
     private static final Color GRIS_TEXTO  = new Color(110, 110, 110);
     private static final Color BLANCO      = Color.WHITE;
-
+    private final GestorBancario gestor;
     private final String tipo;
 
 
@@ -27,7 +28,8 @@ public class AbrirCuentaPanel extends JPanel {
 
     private JTextField txtPlazo, txtFechaVencimiento, txtPenalizacion;
 
-    public AbrirCuentaPanel(String tipo) {
+    public AbrirCuentaPanel(GestorBancario gestor, String tipo) {
+        this.gestor = gestor;
         this.tipo = tipo;
         setLayout(new GridBagLayout());
         setBackground(GRIS_CLARO);
@@ -100,12 +102,12 @@ public class AbrirCuentaPanel extends JPanel {
 
     private void accionAbrirAhorros() {
         try {
-            String numero        = txtNumero.getText().trim();
             String titular       = txtTitular.getText().trim();
             String dpi           = txtDpi.getText().trim();
             String fechaApertura = txtFechaApertura.getText().trim();
             double saldo         = Double.parseDouble(txtSaldo.getText().trim());
             double tasa          = Double.parseDouble(txtTasa.getText().trim());
+            gestor.agregarCuentaAhorros(titular, dpi, saldo, tasa);
 
             mostrarExito("Cuenta de Ahorros creada correctamente.");
             limpiarCampos();
@@ -122,7 +124,7 @@ public class AbrirCuentaPanel extends JPanel {
             String fechaApertura = txtFechaApertura.getText().trim();
             double saldo         = Double.parseDouble(txtSaldo.getText().trim());
             double sobregiro     = Double.parseDouble(txtSobregiro.getText().trim());
-
+            gestor.agregarCuentaCorriente(titular, dpi, saldo, sobregiro);
             mostrarExito("Cuenta Corriente creada correctamente.");
             limpiarCampos();
         } catch (NumberFormatException e) {
@@ -141,7 +143,7 @@ public class AbrirCuentaPanel extends JPanel {
             int    plazo            = Integer.parseInt(txtPlazo.getText().trim());
             String fechaVencimiento = txtFechaVencimiento.getText().trim();
             double penalizacion     = Double.parseDouble(txtPenalizacion.getText().trim());
-
+            gestor.agregarCuentaPlazoFijo(titular, dpi, saldo, tasa, plazo, fechaVencimiento, penalizacion);
             mostrarExito("Cuenta a Plazo Fijo creada correctamente.");
             limpiarCampos();
         } catch (NumberFormatException e) {
