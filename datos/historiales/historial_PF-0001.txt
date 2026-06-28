@@ -1,0 +1,4 @@
+27/06/2026 19:04:04 | DEP | PF-0001 | L. 5,000.00 | Saldo: L. 15,000.00 | Deposito realizado
+
+27/06/2026 19:05:10 | DEP | PF-0001 | L. 100.00 | Saldo: L. 15,100.00 | Deposito realizado
+

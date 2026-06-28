@@ -1,0 +1,7 @@
+27/06/2026 19:03:05 | DEP | CTE-0002 | L. 5,000.00 | Saldo: L. 50,000.00 | Deposito realizado
+
+27/06/2026 19:03:15 | RET | CTE-0002 | L. 10,000.00 | Saldo: L. 40,000.00 | Retiro realizado desde cuenta corriente
+
+27/06/2026 19:03:34 | RET | CTE-0002 | L. 5,000.00 | Saldo: L. 35,000.00 | Retiro realizado desde cuenta corriente
+
+RESUMEN TRANSFERENCIA: L. 5,000.00 enviados a cta AHO-0001

@@ -1,0 +1,5 @@
+27/06/2026 19:03:34 | DEP | AHO-0001 | L. 5,000.00 | Saldo: L. 10,000.00 | Deposito realizado
+
+RESUMEN TRANSFERENCIA: L. 5,000.00 recibidos de cta CTE-0002
+27/06/2026 19:05:10 | DEP | AHO-0001 | L. 1,666.67 | Saldo: L. 11,666.67 | Deposito realizado
+
