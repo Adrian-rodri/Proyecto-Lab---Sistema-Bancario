@@ -2,20 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/CuentaAhorros.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/CuentaBancaria.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/CuentaCorriente.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/CuentaPlazoFijo.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/GestorBancario.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/Main.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/TipoTransaccion.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/Transaccion.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/Transaccionable.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/GUI/MainFrame.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/GUI/MenuScreen.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/GUI/LoginScreen.java</file>
-            <file>file:/C:/Users/adria/Documents%20noOneDrive/Lab%20Progra%20II/Sistema%20Bancario/src/sistema/bancario/GestorBancarioCopy.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
